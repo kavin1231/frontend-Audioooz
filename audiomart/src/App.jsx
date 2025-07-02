@@ -1,14 +1,14 @@
 import "./App.css";
-import { BrowserRouter } from "react-router-dom"; // 👈 Import router
+import { BrowserRouter, Route, Routes } from "react-router-dom"; // 👈 Import router
 import AdminDashboard from "./components/Admin/adminDashboard.jsx";
 
 function App() {
   return (
     <BrowserRouter>
-      <>
-        <AdminDashboard />
-        
-      </>
+     <Routes path="/*">
+     <Route path="/admin" element={<AdminDashboard />} />
+     <Route path="/" element= {<h1>Home</h1>}/>
+     </Routes>
     </BrowserRouter>
   );
 }
