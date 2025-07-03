@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -12,11 +13,21 @@ export default function LoginPage() {
     console.log("Email:", email);
     console.log("Password:", password);
     console.log("Remember Me:", remember);
-    
-    // Optionally reset fields
-    // setEmail("");
-    // setPassword("");
-    // setRemember(false);
+
+    axios
+      .post("http://localhost:3005/api/users/login", {
+        email: email,
+        password: password,
+        rememberMe: remember,
+      })
+      .then((response) => {
+        console.log("Login successful:", response.data);
+        // Handle successful login (e.g., redirect, show message)
+      })
+      .catch((error) => {
+        console.error("Login failed:", error);
+        // Handle login failure (e.g., show error message)
+      });
   };
 
   return (

@@ -7,6 +7,7 @@ import AboutPage from "./pages/Home/aboutPage.jsx";
 import NotFoundPage from "./pages/Home/notFoundPage.jsx";
 import Testing from "./components/testing.jsx";
 import LoginPage from "./pages/Login & Registration/login.jsx";
+
 function App() {
   return (
     <BrowserRouter>
