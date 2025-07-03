@@ -13,13 +13,15 @@ export default function Footer() {
             alt="Company Logo"
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg";
+              e.target.src =
+                "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg";
             }}
           />
           <p className="mt-6 text-sm">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s,
-            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry&apos;s standard dummy
+            text ever since the 1500s, when an unknown printer took a galley of
+            type and scrambled it to make a type specimen book.
           </p>
         </div>
 
@@ -29,10 +31,18 @@ export default function Footer() {
           <div>
             <h2 className="font-semibold mb-5 text-gray-800">Company</h2>
             <ul className="text-sm space-y-2">
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/about">About us</Link></li>
-              <li><Link to="/contact">Contact us</Link></li>
-              <li><Link to="/privacy-policy">Privacy policy</Link></li>
+              <li>
+                <Link to="/home">Home</Link>
+              </li>
+              <li>
+                <Link to="/about">About us</Link>
+              </li>
+              <li>
+                <Link to="/contact">Contact us</Link>
+              </li>
+              <li>
+                <Link to="/privacy-policy">Privacy policy</Link>
+              </li>
             </ul>
           </div>
 

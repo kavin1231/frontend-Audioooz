@@ -18,9 +18,15 @@ const Header = () => {
 
       {/* Desktop Menu */}
       <div className="hidden sm:flex items-center gap-8">
-        <Link to="/" className="hover:underline">Home</Link>
-        <Link to="/product" className="hover:underline">Product</Link>
-        <Link to="/contact" className="hover:underline">Contact</Link>
+        <Link to="/home" className="hover:underline">
+          Home
+        </Link>
+        <Link to="/product" className="hover:underline">
+          Product
+        </Link>
+        <Link to="/contact" className="hover:underline">
+          Contact
+        </Link>
 
         {/* Search bar */}
         <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
@@ -111,9 +117,15 @@ const Header = () => {
           open ? "flex" : "hidden"
         } absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}
       >
-        <Link to="/" className="block">Home</Link>
-        <Link to="/product" className="block">Product</Link>
-        <Link to="/contact" className="block">Contact</Link>
+        <Link to="/home" className="block">
+          Home
+        </Link>
+        <Link to="/product" className="block">
+          Product
+        </Link>
+        <Link to="/contact" className="block">
+          Contact
+        </Link>
 
         {!isLoggedIn && (
           <button
