@@ -5,6 +5,8 @@ import HomePage from "./pages/Home/homePage.jsx";
 import ContactPage from "./pages/Home/contactPage.jsx";
 import AboutPage from "./pages/Home/aboutPage.jsx";
 import NotFoundPage from "./pages/Home/notFoundPage.jsx";
+import Testing from "./components/testing.jsx";
+import LoginPage from "./pages/Login & Registration/login.jsx";
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +17,8 @@ function App() {
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/*" element={<NotFoundPage />} />
+      <Route path="/testing" element={<Testing />} />
+      <Route path="/login" element={<LoginPage />} />
      
      </Routes>
      
