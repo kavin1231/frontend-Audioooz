@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -20,13 +21,13 @@ export default function LoginPage() {
         password: password,
         rememberMe: remember,
       })
-      .then((response) => {
-        console.log("Login successful:", response.data);
-        // Handle successful login (e.g., redirect, show message)
+      .then((res) => {
+        console.log(res);
+        toast.success("Login successful!");
       })
-      .catch((error) => {
-        console.error("Login failed:", error);
-        // Handle login failure (e.g., show error message)
+      .catch((err) => {
+        console.log(err);
+        toast.error("Login failed. Please check your credentials.");
       });
   };
 

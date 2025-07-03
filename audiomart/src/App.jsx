@@ -8,21 +8,22 @@ import NotFoundPage from "./pages/Home/notFoundPage.jsx";
 import Testing from "./components/testing.jsx";
 import LoginPage from "./pages/Login & Registration/login.jsx";
 
+import { Toaster } from "react-hot-toast";
+
 function App() {
   return (
     <BrowserRouter>
-     <Routes path="/*">
-     <Route path="/admin/*" element={<AdminDashboard />} />
-     <Route path="/Home" element= {<HomePage/>}/>
-     <Route path="/product" element={<productPage />} />
-      <Route path="/contact" element={<ContactPage />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/*" element={<NotFoundPage />} />
-      <Route path="/testing" element={<Testing />} />
-      <Route path="/login" element={<LoginPage />} />
-     
-     </Routes>
-     
+      <Toaster />
+      <Routes path="/*">
+        <Route path="/admin/*" element={<AdminDashboard />} />
+        <Route path="/Home" element={<HomePage />} />
+        <Route path="/product" element={<productPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/*" element={<NotFoundPage />} />
+        <Route path="/testing" element={<Testing />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
     </BrowserRouter>
   );
 }
