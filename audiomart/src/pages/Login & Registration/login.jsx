@@ -24,6 +24,13 @@ export default function LoginPage() {
       .then((res) => {
         console.log(res);
         toast.success("Login successful!");
+        const user= res.data.user;
+        if (user.role === "admin") {
+          window.location.href = "/admin/dashboard";
+        }
+        if (user.role === "customer") {
+          window.location.href = "/Home";
+        }
       })
       .catch((err) => {
         console.log(err);
