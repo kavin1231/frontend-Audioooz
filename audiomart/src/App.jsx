@@ -9,6 +9,7 @@ function App() {
      <Routes path="/*">
      <Route path="/admin/*" element={<AdminDashboard />} />
      <Route path="/*" element= {<HomePage/>}/>
+     <Route path="/product" element={<productPage />} />
      </Routes>
     </BrowserRouter>
   );
