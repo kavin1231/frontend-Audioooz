@@ -27,6 +27,7 @@ export default function LoginPage() {
         console.log(res);
         toast.success("Login successful!");
         const user= res.data.user;
+        localStorage.setItem("token", res.data.token);
         if (user.role === "admin") {
           navigate("/admin/dashboard");
         }
