@@ -90,9 +90,9 @@ export default function AddItemPage() {
           onChange={(e) => setProductCategory(e.target.value)}
           className="w-full p-2 border rounded"
         >
-          <option value="Stage Audios">Fruits</option>
-          <option value="Speakers">Vegetables</option>
-          <option value="Music Items">Grains</option>
+          <option value="Stage Audios">Stage Audios</option>
+          <option value="Speakers">Speakers</option>
+          <option value="Music Items">Music Items</option>
           <option value="uncategorized">Uncategorized</option>
         </select>
 
@@ -101,8 +101,8 @@ export default function AddItemPage() {
           onChange={(e) => setProductSubcategory(e.target.value)}
           className="w-full p-2 border rounded"
         >
-          <option value="stage">Organic</option>
-          <option value="Large Speakers">Non-Organic</option>
+          <option value="stage">stage</option>
+          <option value="Large Speakers">Large Speakers</option>
           <option value="uncategorized">Uncategorized</option>
         </select>
 
