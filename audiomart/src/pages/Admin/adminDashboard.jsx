@@ -2,6 +2,8 @@ import { BsGraphDown } from "react-icons/bs";
 import { FaRegBookmark, FaRegUser } from "react-icons/fa";
 import { MdOutlineSpeaker } from "react-icons/md";
 import { Link, Route, Routes } from "react-router-dom";
+import AddItemPage from "./addItemsPage";
+import ItemsPage from "./itemsPage";
 
 export default function AdminDashboard() {
   return (
@@ -57,9 +59,15 @@ export default function AdminDashboard() {
           <Route
             path="/items"
             element={
-              <h1 className="text-2xl font-medium text-gray-700">Items Page</h1>
+              <ItemsPage/>
             }
           />
+          <Route
+            path="/items/add"
+            element={
+              <AddItemPage/ >
+            }
+            />
           <Route
             path="/users"
             element={

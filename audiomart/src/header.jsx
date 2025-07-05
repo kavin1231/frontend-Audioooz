@@ -1,12 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // useNavigate added
 
 const Header = () => {
   const [open, setOpen] = React.useState(false);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false); // simulate login status
+  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(true); // simulate login
+
+  const navigate = useNavigate(); // get navigate function
+
+  const handleLogout = () => {
+    console.log("User logged out");
+
+    // Clear any auth tokens here if used
+    setIsLoggedIn(false);
+    setDropdownOpen(false);
+
+    navigate("/login"); // redirect to login page
+  };
 
   return (
-    <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
+    <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all z-50">
       {/* Logo */}
       <Link to="/">
         <img
@@ -28,7 +41,7 @@ const Header = () => {
           Contact
         </Link>
 
-        {/* Search bar */}
+        {/* Search Bar */}
         <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
           <input
             className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500"
@@ -60,7 +73,7 @@ const Header = () => {
           </svg>
         </div>
 
-        {/* Cart icon */}
+        {/* Cart Icon */}
         <div className="relative cursor-pointer">
           <svg
             width="18"
@@ -81,8 +94,43 @@ const Header = () => {
           </button>
         </div>
 
-       
-        
+        {/* Profile Dropdown if Logged In */}
+        {isLoggedIn && (
+          <div className="relative">
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-full hover:bg-gray-100 transition"
+            >
+              <img
+                src="https://ui-avatars.com/api/?name=User"
+                alt="Profile"
+                className="w-6 h-6 rounded-full"
+              />
+              <span className="text-sm text-gray-700 hidden md:inline">
+                My Account
+              </span>
+            </button>
+
+            {/* Dropdown Menu */}
+            {dropdownOpen && (
+              <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg py-2 z-50">
+                <Link
+                  to="/profile"
+                  onClick={() => setDropdownOpen(false)}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Edit Profile
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Mobile Menu Button */}
@@ -119,7 +167,19 @@ const Header = () => {
         <Link to="/contact" className="block">
           Contact
         </Link>
-
+        {isLoggedIn && (
+          <>
+            <Link to="/profile" className="block">
+              Edit Profile
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="text-left text-red-600 px-0"
+            >
+              Logout
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );
