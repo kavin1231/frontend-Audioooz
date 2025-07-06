@@ -16,7 +16,7 @@ export default function mediaUpload(file) {
     const fileName = timestamp + file.name;
     supabase.storage
       .from("images")
-      .upload(fileName, file, {
+      .upload("images/${fileName}", file, {
         cacheControl: "3600",
         upsert: false,
       })

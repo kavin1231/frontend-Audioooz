@@ -2,9 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import mediaUpload from "../../utils/mediaUpload";
-
-
+import mediaUpload from "../../mediaUpload";
 
 export default function AddItemPage() {
   const [productKey, setProductKey] = useState("");
@@ -37,6 +35,7 @@ export default function AddItemPage() {
       productCategory,
       productDimensions,
       productDescription
+      
     );
     const token = localStorage.getItem("token");
 

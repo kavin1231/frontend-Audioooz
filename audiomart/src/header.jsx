@@ -15,7 +15,7 @@ const Header = () => {
     setIsLoggedIn(false);
     setDropdownOpen(false);
 
-    navigate("/login"); // redirect to login page
+    navigate("/"); // redirect to login page
   };
 
   return (

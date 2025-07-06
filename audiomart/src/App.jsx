@@ -9,6 +9,7 @@ import Testing from "./components/testing.jsx";
 import LoginPage from "./pages/Login & Registration/login.jsx";
 
 import { Toaster } from "react-hot-toast";
+import ProductPage from "./pages/Home/productPage.jsx";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
         <Route path="/Home" element={<HomePage />} />
-        <Route path="/products" element={<productPage />} />
+        <Route path="/product" element={<ProductPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/*" element={<NotFoundPage />} />
