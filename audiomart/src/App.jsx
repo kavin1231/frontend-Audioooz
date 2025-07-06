@@ -15,10 +15,10 @@ function App() {
     <BrowserRouter>
       <Toaster />
       <Routes path="/*">
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
         <Route path="/Home" element={<HomePage />} />
-        <Route path="/product" element={<productPage />} />
+        <Route path="/products" element={<productPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/*" element={<NotFoundPage />} />
