@@ -4,6 +4,7 @@ import { MdOutlineSpeaker } from "react-icons/md";
 import { Link, Route, Routes } from "react-router-dom";
 import AddItemPage from "./addItemsPage";
 import ItemsPage from "./itemsPage";
+import UpdateItemPage from "./updateItems";
 
 export default function AdminDashboard() {
   return (
@@ -53,21 +54,14 @@ export default function AdminDashboard() {
           <Route
             path="/bookings"
             element={
-              <h1 className="text-2xl font-medium text-gray-700">Orders Page</h1>
+              <h1 className="text-2xl font-medium text-gray-700">
+                Orders Page
+              </h1>
             }
           />
-          <Route
-            path="/items"
-            element={
-              <ItemsPage/>
-            }
-          />
-          <Route
-            path="/items/add"
-            element={
-              <AddItemPage/ >
-            }
-            />
+          <Route path="/items" element={<ItemsPage />} />
+          <Route path="/items/add" element={<AddItemPage />} />
+          <Route path="/items/edit" element={<UpdateItemPage />} />
           <Route
             path="/users"
             element={

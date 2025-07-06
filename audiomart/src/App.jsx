@@ -10,6 +10,7 @@ import LoginPage from "./pages/Login & Registration/login.jsx";
 
 import { Toaster } from "react-hot-toast";
 import ProductPage from "./pages/Home/productPage.jsx";
+import RegisterPage from "./pages/Login & Registration/RegisterPage.jsx";
 
 function App() {
   return (
@@ -24,6 +25,10 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/*" element={<NotFoundPage />} />
         <Route path="/testing" element={<Testing />} />
+        <Route
+          path="/register"
+          element={<RegisterPage />}
+        />
       </Routes>
     </BrowserRouter>
   );

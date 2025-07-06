@@ -9,12 +9,13 @@ export default function ItemsPage() {
   const [itemsLoaded, setItemsLoaded] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const BackendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     if (!itemsLoaded) {
       const token = localStorage.getItem("token");
       axios
-        .get("http://localhost:3005/api/products", {
+        .get(`${BackendUrl}/api/products`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
@@ -32,7 +33,7 @@ export default function ItemsPage() {
       setItems(items.filter((item) => item.key !== key));
       const token = localStorage.getItem("token");
       axios
-        .delete(`http://localhost:3005/api/products/${key}`, {
+        .delete(`${BackendUrl}/api/products/${key}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(() => setItemsLoaded(false))
@@ -162,10 +163,10 @@ export default function ItemsPage() {
                       {product.availability ? "Available" : "Not Available"}
                     </span>
                   </td>
-                  <td className="p-3 border flex justify-center gap-2">
+                  <td className="p-3  flex justify-center gap-2">
                     <button
                       onClick={() =>
-                        navigate(`/farmer/items/edit`, { state: product })
+                        navigate(`/Admin/items/edit`, { state: product })
                       }
                       className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
                     >

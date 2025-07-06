@@ -16,9 +16,10 @@ export default function LoginPage() {
     console.log("Email:", email);
     console.log("Password:", password);
     console.log("Remember Me:", remember);
+    const BackendUrl= import.meta.env.VITE_BACKEND_URL;
 
     axios
-      .post("http://localhost:3005/api/users/login", {
+      .post(`${BackendUrl}/api/users/login`, {
         email: email,
         password: password,
         rememberMe: remember,
@@ -163,7 +164,7 @@ export default function LoginPage() {
           {/* Signup Link */}
           <p className="text-gray-500/90 text-sm mt-4">
             Don’t have an account?{" "}
-            <a className="text-indigo-400 hover:underline" href="#">
+            <a className="text-indigo-400 hover:underline" href="/register">
               Sign up
             </a>
           </p>
