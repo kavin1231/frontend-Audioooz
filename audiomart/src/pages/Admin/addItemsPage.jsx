@@ -2,13 +2,13 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import mediaUpload from "../../mediaUpload";
+import mediaUpload from "../../utils/mediaUpload";
 
 export default function AddItemPage() {
   const [productKey, setProductKey] = useState("");
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState(0);
-  const [productCategory, setProductCategory] = useState("Speakers");
+  const [productCategory, setProductCategory] = useState("audio");
   const [productDimensions, setProductDimensions] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [productImages, setProductImages] = useState([]);
@@ -35,7 +35,6 @@ export default function AddItemPage() {
       productCategory,
       productDimensions,
       productDescription
-      
     );
     const token = localStorage.getItem("token");
 
@@ -50,10 +49,9 @@ export default function AddItemPage() {
         // 	});
 
         const imageUrls = await Promise.all(promises);
-        const BackendUrl= import.meta.env.VITE_BACKEND_URL;
 
         const result = await axios.post(
-          `${BackendUrl}/api/products`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/products`,
           {
             key: productKey,
             name: productName,
@@ -109,8 +107,8 @@ export default function AddItemPage() {
           onChange={(e) => setProductCategory(e.target.value)}
           className="w-full p-2 border rounded"
         >
-          <option value="Speakers">Speakers</option>
-          <option value="Music Items">Music Items</option>
+          <option value="audio">Audio</option>
+          <option value="lights">Lights</option>
         </select>
         <input
           type="text"

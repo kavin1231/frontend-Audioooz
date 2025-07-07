@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
-import mediaUpload from "../../mediaUpload";
+import mediaUpload from "../../utils/mediaUpload";
 
 export default function UpdateItemPage() {
   const location = useLocation();
@@ -31,7 +31,7 @@ export default function UpdateItemPage() {
     }
 
     const token = localStorage.getItem("token");
-     const BackendUrl= import.meta.env.VITE_BACKEND_URL;
+    const BackendUrl = import.meta.env.VITE_BACKEND_URL;
 
     if (token) {
       try {
