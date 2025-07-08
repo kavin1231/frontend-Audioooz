@@ -4,51 +4,51 @@ export default function ProductCard({ item }) {
   if (!item) return null;
 
   return (
-    <div className="w-[300px] bg-white rounded-2xl shadow-md overflow-hidden flex flex-col justify-between hover:shadow-xl transition-shadow duration-300">
-      <div className="h-48 w-full overflow-hidden">
-        <img
-          src={item.image?.[0] || "/placeholder.jpg"}
-          alt={item.name || "Product Image"}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-        />
-      </div>
+    <div className="flex flex-col bg-white shadow-md w-72 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      <img
+        className="w-full h-48 object-cover"
+        src={item.image?.[0] || "/placeholder.jpg"}
+        alt={item.name || "Product Image"}
+      />
 
-      <div className="p-4 flex-1 flex flex-col justify-between">
-        <div>
-          <h2 className="text-xl font-bold text-gray-800 truncate">{item.name}</h2>
-          <p className="text-sm text-gray-500 mt-1">{item.category}</p>
-          <p className="text-sm text-gray-700 mt-3 line-clamp-3">{item.description}</p>
-        </div>
+      <div className="p-4 text-sm flex flex-col justify-between h-full">
+        <p className="text-green-600 font-semibold text-base">
+          LKR {Number(item.price).toFixed(2)}
+        </p>
 
-        <div className="mt-4">
-          <div className="flex justify-between items-center">
-            <span className="text-lg font-semibold text-green-600">
-              LKR {Number(item.price).toFixed(2)}
-            </span>
-            <span
-              className={`px-3 py-1 text-xs font-medium rounded-full ${
-                item.availability
-                  ? "bg-green-100 text-green-700"
-                  : "bg-red-100 text-red-700"
-              }`}
-            >
-              {item.availability ? "In Stock" : "Out of Stock"}
-            </span>
-          </div>
+        <p className="text-slate-800 text-lg font-medium mt-1">
+          {item.name}
+        </p>
 
-          <div className="text-xs text-gray-600 mt-2">
-            <span className="font-medium">Dimensions:</span> {item.dimensions}
-          </div>
-        </div>
-      </div>
+        <p className="text-slate-500 mt-1 line-clamp-2">
+          {item.description}
+        </p>
 
-      <div className="px-4 pb-4 pt-2">
-        <Link
-          to={`/product/${item.key}`}
-          className="block w-full text-center bg-green-800 hover:bg-green-900 text-white py-2 rounded-lg transition duration-200"
+        <p className="text-xs text-gray-600 mt-2">
+          <span className="font-medium">Dimensions:</span> {item.dimensions}
+        </p>
+
+        <span
+          className={`mt-2 inline-block w-max text-xs font-medium px-3 py-1 rounded-full ${
+            item.availability
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
         >
-          View Details
-        </Link>
+          {item.availability ? "In Stock" : "Out of Stock"}
+        </span>
+
+        <div className="grid grid-cols-2 gap-2 mt-4">
+          <button className="bg-slate-100 text-slate-600 py-2 rounded hover:bg-slate-200 transition">
+            Add to cart
+          </button>
+          <Link
+            to={`/product/${item.key}`}
+            className="bg-slate-800 text-white py-2 text-center rounded hover:bg-slate-900 transition"
+          >
+            View
+          </Link>
+        </div>
       </div>
     </div>
   );
