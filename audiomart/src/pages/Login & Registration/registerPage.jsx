@@ -10,7 +10,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState(""); // Added role selection
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ export default function RegisterPage() {
     if (!password) newErrors.password = "Password is required";
     if (!address.trim()) newErrors.address = "Address is required";
     if (!phone.trim()) newErrors.phone = "Phone number is required";
-    
+    if (!role) newErrors.role = "Role is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -40,9 +40,9 @@ export default function RegisterPage() {
         .post(`${BackendUrl}/api/users`, {
           email,
           password,
-          role,
-          firstname: firstName,  // ✅ match mongoose schema
-          lastname: lastName,    // ✅ match mongoose schema
+          role, // Include role in payload
+          firstname: firstName,
+          lastname: lastName,
           address,
           phone,
         })
@@ -51,6 +51,10 @@ export default function RegisterPage() {
           navigate("/");
         })
         .catch((err) => {
+          console.error(
+            "Registration error:",
+            err.response?.data || err.message
+          );
           toast.error(err?.response?.data?.error || "An error occurred");
         })
         .finally(() => {
@@ -154,8 +158,33 @@ export default function RegisterPage() {
             </div>
           ))}
 
-          
-          
+          {/* Role Select */}
+          <div className="w-full mt-4">
+            <label
+              htmlFor="role"
+              className={`block mb-1 text-sm font-medium ${
+                errors.role ? "text-red-500" : "text-gray-700"
+              }`}
+            >
+              Role
+            </label>
+            <select
+              id="role"
+              name="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className={`w-full h-12 rounded-full pl-6 text-gray-700 border ${
+                errors.role ? "border-red-500" : "border-gray-300/60"
+              }`}
+              required
+            >
+              <option value="">Select a role</option>
+              <option value="customer">Customer</option>
+            </select>
+            {errors.role && (
+              <p className="text-red-500 text-xs mt-1">{errors.role}</p>
+            )}
+          </div>
 
           {/* Submit Button */}
           <button
