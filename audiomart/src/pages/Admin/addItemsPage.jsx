@@ -8,7 +8,7 @@ export default function AddItemPage() {
   const [productKey, setProductKey] = useState("");
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState(0);
-  const [productCategory, setProductCategory] = useState("audio");
+  const [productCategory, setProductCategory] = useState("Speakers");
   const [productDimensions, setProductDimensions] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [productImages, setProductImages] = useState([]);
@@ -107,7 +107,7 @@ export default function AddItemPage() {
           onChange={(e) => setProductCategory(e.target.value)}
           className="w-full p-2 border rounded"
         >
-          <option value="audio">Audio</option>
+          <option value="Speaker">Audio</option>
           <option value="lights">Lights</option>
         </select>
         <input

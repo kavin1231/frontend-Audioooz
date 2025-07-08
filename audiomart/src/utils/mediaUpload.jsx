@@ -7,26 +7,26 @@ const SUPABASE_ANON_KEY =
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export default function mediaUpload(file) {
-  return new Promise((resolve, reject) => {
-    if (file == null) {
-      reject("No File selected");
-    }
+	return new Promise((resolve, reject) => {
+        if(file == null){
+            reject("No file selected")
+        }
 
-    const timestamp = new Date().getTime();
-    const fileName = timestamp + file.name;
-    supabase.storage
-      .from("images")
-      .upload("images/${fileName}", file, {
-        cacheControl: "3600",
-        upsert: false,
-      })
-      .then(() => {
-        const publicUrl = supabase.storage.from("images").getPublicUrl(fileName)
-          .data.publicUrl;
-        resolve(publicUrl);
-      })
-      .catch(() => {
-        reject("Error uploading file");
-      });
-  });
+		const timestamp = new Date().getTime();
+		const fileName = timestamp + file.name;
+
+		supabase.storage
+			.from("images")
+			.upload(fileName, file, {
+				cacheControl: "3600",
+				upsert: false,
+			})
+			.then(() => {
+				const publicUrl = supabase.storage.from("images").getPublicUrl(fileName)
+					.data.publicUrl;
+				resolve(publicUrl);
+			}).catch(()=>{
+                reject("Error uploading file")
+            })
+	});
 }
