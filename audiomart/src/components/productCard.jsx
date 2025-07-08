@@ -42,6 +42,7 @@ export default function ProductCard({ item }) {
           <button className="bg-slate-100 text-slate-600 py-2 rounded hover:bg-slate-200 transition">
             Add to cart
           </button>
+          
           <Link
             to={`/product/${item.key}`}
             className="bg-slate-800 text-white py-2 text-center rounded hover:bg-slate-900 transition"

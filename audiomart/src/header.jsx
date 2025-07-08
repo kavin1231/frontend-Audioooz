@@ -74,7 +74,8 @@ const Header = () => {
         </div>
 
         {/* Cart Icon */}
-        <div className="relative cursor-pointer">
+        
+        <Link to="/cart" className="relative cursor-pointer">
           <svg
             width="18"
             height="18"
@@ -89,10 +90,10 @@ const Header = () => {
               strokeLinejoin="round"
             />
           </svg>
-          <button className="absolute -top-2 -right-3 text-xs text-white bg-indigo-500 w-[18px] h-[18px] rounded-full">
+          <span className="absolute -top-2 -right-3 text-xs text-white bg-indigo-500 w-[18px] h-[18px] rounded-full flex items-center justify-center">
             3
-          </button>
-        </div>
+          </span>
+        </Link>
 
         {/* Profile Dropdown if Logged In */}
         {isLoggedIn && (

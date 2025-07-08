@@ -11,24 +11,25 @@ import LoginPage from "./pages/Login & Registration/login.jsx";
 import { Toaster } from "react-hot-toast";
 import ProductPage from "./pages/Home/productPage.jsx";
 import RegisterPage from "./pages/Login & Registration/RegisterPage.jsx";
+import ProductOverview from "./pages/Home/productOverview.jsx";
+import CartPage from "./pages/Home/cartPage.jsx";
 
 function App() {
   return (
     <BrowserRouter>
       <Toaster />
-      <Routes path="/*">
+      <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
-        <Route path="/Home" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/product" element={<ProductPage />} />
+        <Route path="/product/:key" element={<ProductOverview />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/*" element={<NotFoundPage />} />
         <Route path="/testing" element={<Testing />} />
-        <Route
-          path="/register"
-          element={<RegisterPage />}
-        />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/cart" element={<CartPage/>} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
