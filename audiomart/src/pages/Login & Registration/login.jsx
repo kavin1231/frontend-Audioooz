@@ -7,43 +7,37 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // You can handle actual authentication here (e.g., API call)
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Remember Me:", remember);
-    const BackendUrl= import.meta.env.VITE_BACKEND_URL;
+    const BackendUrl = import.meta.env.VITE_BACKEND_URL;
 
     axios
       .post(`${BackendUrl}/api/users/login`, {
-        email: email,
-        password: password,
+        email,
+        password,
         rememberMe: remember,
       })
       .then((res) => {
-        console.log(res);
         toast.success("Login successful!");
-        const user= res.data.user;
+        const user = res.data.user;
         localStorage.setItem("token", res.data.token);
+
         if (user.role === "admin") {
           navigate("/admin/dashboard");
-        }
-        if (user.role === "customer") {
+        } else if (user.role === "customer") {
           navigate("/Home");
         }
       })
       .catch((err) => {
-        console.log(err);
         toast.error("Login failed. Please check your credentials.");
       });
   };
 
   return (
-    <div className="flex h-[700px] w-full">
+    <div className="flex h-[700px] w-full bg-black text-white">
       {/* Left Side Image */}
       <div className="w-full hidden md:inline-block">
         <img
@@ -59,15 +53,15 @@ export default function LoginPage() {
           onSubmit={handleSubmit}
           className="md:w-96 w-80 flex flex-col items-center justify-center"
         >
-          <h2 className="text-4xl text-gray-900 font-medium">Sign in</h2>
-          <p className="text-sm text-gray-500/90 mt-3">
+          <h2 className="text-4xl text-white font-medium">Sign in</h2>
+          <p className="text-sm text-gray-400 mt-3">
             Welcome back! Please sign in to continue
           </p>
 
           {/* Google Sign-in Button */}
           <button
             type="button"
-            className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full"
+            className="w-full mt-8 bg-gray-800 border border-gray-600 flex items-center justify-center h-12 rounded-full"
           >
             <img
               src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg"
@@ -77,15 +71,15 @@ export default function LoginPage() {
 
           {/* Divider */}
           <div className="flex items-center gap-4 w-full my-5">
-            <div className="w-full h-px bg-gray-300/90"></div>
-            <p className="w-full text-nowrap text-sm text-gray-500/90">
+            <div className="w-full h-px bg-gray-700"></div>
+            <p className="w-full text-nowrap text-sm text-gray-400">
               or sign in with email
             </p>
-            <div className="w-full h-px bg-gray-300/90"></div>
+            <div className="w-full h-px bg-gray-700"></div>
           </div>
 
           {/* Email Field */}
-          <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2">
+          <div className="flex items-center w-full bg-transparent border border-gray-700 h-12 rounded-full overflow-hidden pl-6 gap-2">
             <svg
               width="16"
               height="11"
@@ -97,13 +91,13 @@ export default function LoginPage() {
                 fillRule="evenodd"
                 clipRule="evenodd"
                 d="M0 .55.571 0H15.43l.57.55v9.9l-.571.55H.57L0 10.45zm1.143 1.138V9.9h13.714V1.69l-6.503 4.8h-.697zM13.749 1.1H2.25L8 5.356z"
-                fill="#6B7280"
+                fill="#9CA3AF"
               />
             </svg>
             <input
               type="email"
               placeholder="Email id"
-              className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
+              className="bg-transparent text-gray-400 placeholder-gray-500 outline-none text-sm w-full h-full"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -111,7 +105,7 @@ export default function LoginPage() {
           </div>
 
           {/* Password Field */}
-          <div className="flex items-center mt-6 w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2">
+          <div className="flex items-center mt-6 w-full bg-transparent border border-gray-700 h-12 rounded-full overflow-hidden pl-6 gap-2">
             <svg
               width="13"
               height="17"
@@ -121,13 +115,13 @@ export default function LoginPage() {
             >
               <path
                 d="M13 8.5c0-.938-.729-1.7-1.625-1.7h-.812V4.25C10.563 1.907 8.74 0 6.5 0S2.438 1.907 2.438 4.25V6.8h-.813C.729 6.8 0 7.562 0 8.5v6.8c0 .938.729 1.7 1.625 1.7h9.75c.896 0 1.625-.762 1.625-1.7zM4.063 4.25c0-1.406 1.093-2.55 2.437-2.55s2.438 1.144 2.438 2.55V6.8H4.061z"
-                fill="#6B7280"
+                fill="#9CA3AF"
               />
             </svg>
             <input
               type="password"
               placeholder="Password"
-              className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
+              className="bg-transparent text-gray-400 placeholder-gray-500 outline-none text-sm w-full h-full"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -135,7 +129,7 @@ export default function LoginPage() {
           </div>
 
           {/* Remember Me & Forgot Password */}
-          <div className="w-full flex items-center justify-between mt-8 text-gray-500/80">
+          <div className="w-full flex items-center justify-between mt-8 text-gray-400">
             <div className="flex items-center gap-2">
               <input
                 className="h-5"
@@ -156,15 +150,15 @@ export default function LoginPage() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="mt-8 w-full h-11 rounded-full text-white bg-indigo-500 hover:opacity-90 transition-opacity"
+            className="mt-8 w-full h-11 rounded-full text-white bg-yellow-400 hover:bg-yellow-500 transition"
           >
             Login
           </button>
 
           {/* Signup Link */}
-          <p className="text-gray-500/90 text-sm mt-4">
+          <p className="text-gray-400 text-sm mt-4">
             Don’t have an account?{" "}
-            <a className="text-indigo-400 hover:underline" href="/register">
+            <a className="text-yellow-400 hover:underline" href="/register">
               Sign up
             </a>
           </p>

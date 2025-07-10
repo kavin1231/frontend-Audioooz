@@ -5,6 +5,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import AddItemPage from "./addItemsPage";
 import ItemsPage from "./itemsPage";
 import UpdateItemPage from "./updateItems";
+import OrdersPage from "./ordersPage";
 
 export default function AdminDashboard() {
   return (
@@ -54,14 +55,13 @@ export default function AdminDashboard() {
           <Route
             path="/bookings"
             element={
-              <h1 className="text-2xl font-medium text-gray-700">
-                Orders Page
-              </h1>
+              <OrdersPage/>
             }
           />
           <Route path="/items" element={<ItemsPage />} />
           <Route path="/items/add" element={<AddItemPage />} />
           <Route path="/items/edit" element={<UpdateItemPage />} />
+          
           <Route
             path="/users"
             element={

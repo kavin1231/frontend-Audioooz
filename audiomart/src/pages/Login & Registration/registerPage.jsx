@@ -10,7 +10,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState(""); // Added role selection
+  const [role, setRole] = useState("");
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export default function RegisterPage() {
         .post(`${BackendUrl}/api/users`, {
           email,
           password,
-          role, // Include role in payload
+          role,
           firstname: firstName,
           lastname: lastName,
           address,
@@ -51,10 +51,6 @@ export default function RegisterPage() {
           navigate("/");
         })
         .catch((err) => {
-          console.error(
-            "Registration error:",
-            err.response?.data || err.message
-          );
           toast.error(err?.response?.data?.error || "An error occurred");
         })
         .finally(() => {
@@ -64,7 +60,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex h-[800px] w-full">
+    <div className="flex h-[800px] w-full bg-black text-white">
       {/* Left Side Image */}
       <div className="w-full hidden md:inline-block">
         <img
@@ -80,8 +76,8 @@ export default function RegisterPage() {
           onSubmit={handleOnSubmit}
           className="md:w-[450px] w-80 flex flex-col items-center justify-center"
         >
-          <h2 className="text-4xl text-gray-900 font-medium">Sign up</h2>
-          <p className="text-sm text-gray-500/90 mt-3">
+          <h2 className="text-4xl text-white font-medium">Sign up</h2>
+          <p className="text-sm text-gray-400 mt-3">
             Create your account to get started
           </p>
 
@@ -139,14 +135,14 @@ export default function RegisterPage() {
             <div key={idx} className="w-full mt-4">
               <div
                 className={`flex items-center bg-transparent border ${
-                  field.error ? "border-red-500" : "border-gray-300/60"
+                  field.error ? "border-red-500" : "border-gray-700"
                 } h-12 rounded-full overflow-hidden pl-6 gap-2`}
               >
                 <input
                   type={field.type}
                   name={field.name}
                   placeholder={field.label}
-                  className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
+                  className="bg-transparent text-gray-400 placeholder-gray-500 outline-none text-sm w-full h-full"
                   value={field.value}
                   onChange={(e) => field.setValue(e.target.value)}
                   required
@@ -163,7 +159,7 @@ export default function RegisterPage() {
             <label
               htmlFor="role"
               className={`block mb-1 text-sm font-medium ${
-                errors.role ? "text-red-500" : "text-gray-700"
+                errors.role ? "text-red-500" : "text-gray-300"
               }`}
             >
               Role
@@ -173,8 +169,8 @@ export default function RegisterPage() {
               name="role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className={`w-full h-12 rounded-full pl-6 text-gray-700 border ${
-                errors.role ? "border-red-500" : "border-gray-300/60"
+              className={`w-full h-12 rounded-full pl-6 bg-black text-white placeholder-gray-500 ${
+                errors.role ? "border-red-500" : "border border-gray-700"
               }`}
               required
             >
@@ -190,15 +186,15 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="mt-8 w-full h-11 rounded-full text-white bg-indigo-500 hover:opacity-90 transition-opacity"
+            className="mt-8 w-full h-11 rounded-full text-white bg-yellow-400 hover:bg-yellow-500 transition"
           >
             {isLoading ? "Creating..." : "Create Account"}
           </button>
 
           {/* Link to Login */}
-          <p className="text-gray-500/90 text-sm mt-4">
+          <p className="text-gray-400 text-sm mt-4">
             Already have an account?{" "}
-            <Link to="/" className="text-indigo-400 hover:underline">
+            <Link to="/login" className="text-yellow-400 hover:underline">
               Sign in
             </Link>
           </p>

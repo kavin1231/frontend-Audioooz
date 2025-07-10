@@ -14,13 +14,16 @@ import RegisterPage from "./pages/Login & Registration/RegisterPage.jsx";
 import ProductOverview from "./pages/Home/productOverview.jsx";
 import CartPage from "./pages/Home/cartPage.jsx";
 import PurchasePage from "./pages/Home/purchasePage.jsx";
+import MyOrdersPage from "./pages/Home/myOrdersPage.jsx";
+import HeroPage from "./pages/Home/heroPage.jsx";
 
 function App() {
   return (
     <BrowserRouter>
       <Toaster />
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<HeroPage/>} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/product" element={<ProductPage />} />
@@ -31,6 +34,9 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/booking/:key" element={<PurchasePage />} />
+        
+        <Route path="/orders" element={<MyOrdersPage />} />
+
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
