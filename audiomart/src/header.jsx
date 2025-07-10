@@ -1,12 +1,12 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom"; // useNavigate added
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [open, setOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(true); // simulate login
 
-  const navigate = useNavigate(); // get navigate function
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     console.log("User logged out");
@@ -41,6 +41,13 @@ const Header = () => {
           Contact
         </Link>
 
+        {/* Show My Orders if Logged In */}
+        {isLoggedIn && (
+          <Link to="/orders" className="hover:underline">
+            My Orders
+          </Link>
+        )}
+
         {/* Search Bar */}
         <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
           <input
@@ -74,7 +81,6 @@ const Header = () => {
         </div>
 
         {/* Cart Icon */}
-        
         <Link to="/cart" className="relative cursor-pointer">
           <svg
             width="18"
@@ -168,8 +174,12 @@ const Header = () => {
         <Link to="/contact" className="block">
           Contact
         </Link>
+
         {isLoggedIn && (
           <>
+            <Link to="/orders" className="block">
+              My Orders
+            </Link>
             <Link to="/profile" className="block">
               Edit Profile
             </Link>

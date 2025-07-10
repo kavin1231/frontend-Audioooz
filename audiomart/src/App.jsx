@@ -13,6 +13,7 @@ import ProductPage from "./pages/Home/productPage.jsx";
 import RegisterPage from "./pages/Login & Registration/RegisterPage.jsx";
 import ProductOverview from "./pages/Home/productOverview.jsx";
 import CartPage from "./pages/Home/cartPage.jsx";
+import PurchasePage from "./pages/Home/purchasePage.jsx";
 
 function App() {
   return (
@@ -28,7 +29,9 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/testing" element={<Testing />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/cart" element={<CartPage/>} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/booking/:key" element={<PurchasePage />} />
+
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

@@ -57,7 +57,7 @@ export default function CartPage() {
   };
 
   const handleCheckout = () => {
-    navigate("/purchase");
+    navigate("/booking/:key");
   };
 
   if (loading) return <div>Loading cart...</div>;

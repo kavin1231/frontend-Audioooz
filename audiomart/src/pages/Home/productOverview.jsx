@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { addToCart, loadCart } from "../../utils/cartFunction.jsx";
 import toast from "react-hot-toast";
 import Header from "../../header.jsx";
@@ -8,6 +8,8 @@ import Footer from "../../footer.jsx";
 
 export default function ProductOverview() {
   const { key } = useParams();
+  const navigate = useNavigate();
+
   const [loadingStatus, setLoadingStatus] = useState("loading");
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
@@ -25,7 +27,7 @@ export default function ProductOverview() {
         setSelectedImage(res.data.image?.[0] || "");
         setLoadingStatus("loaded");
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error("Product not found.");
         setLoadingStatus("error");
       });
@@ -67,20 +69,14 @@ export default function ProductOverview() {
   };
 
   const renderStars = (rating, size = "text-xl") => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      stars.push(
-        <span
-          key={i}
-          className={`${size} ${
-            i <= rating ? "text-yellow-400" : "text-gray-300"
-          }`}
-        >
-          ★
-        </span>
-      );
-    }
-    return stars;
+    return Array.from({ length: 5 }, (_, i) => (
+      <span
+        key={i}
+        className={`${size} ${i + 1 <= rating ? "text-yellow-400" : "text-gray-300"}`}
+      >
+        ★
+      </span>
+    ));
   };
 
   const handleSubmitReview = () => {
@@ -123,7 +119,7 @@ export default function ProductOverview() {
           <div className="w-full max-w-6xl flex flex-col gap-10">
             {/* Product Display */}
             <div className="flex flex-col md:flex-row gap-10 bg-white rounded-xl shadow-lg p-6">
-              {/* Left: Image with thumbnails */}
+              {/* Left: Images */}
               <div className="md:w-1/2 flex gap-4">
                 <div className="flex flex-col gap-2">
                   {product.image?.map((img, idx) => (
@@ -141,7 +137,7 @@ export default function ProductOverview() {
                 <div className="flex-1">
                   <img
                     src={selectedImage}
-                    alt="Selected Product"
+                    alt="Selected"
                     className="rounded-lg w-full h-full max-h-[500px] object-cover border"
                   />
                 </div>
@@ -149,9 +145,7 @@ export default function ProductOverview() {
 
               {/* Right: Details */}
               <div className="md:w-1/2 w-full flex flex-col gap-4">
-                <h1 className="text-3xl font-bold text-green-800">
-                  {product.name}
-                </h1>
+                <h1 className="text-3xl font-bold text-green-800">{product.name}</h1>
 
                 <div className="flex items-center gap-2">
                   {renderStars(averageRating, "text-2xl")}
@@ -161,10 +155,7 @@ export default function ProductOverview() {
                   </span>
                 </div>
 
-                <h2 className="text-xl text-gray-700">
-                  Category: {product.category}
-                </h2>
-
+                <h2 className="text-xl text-gray-700">Category: {product.category}</h2>
                 <p className="text-gray-600">{product.description}</p>
 
                 <p className="text-2xl font-semibold text-green-600">
@@ -172,8 +163,7 @@ export default function ProductOverview() {
                 </p>
 
                 <div className="text-sm text-gray-500">
-                  <span className="font-medium">Dimensions:</span>{" "}
-                  {product.dimensions}
+                  <span className="font-medium">Dimensions:</span> {product.dimensions}
                 </div>
 
                 <div className="mt-4 flex gap-4">
@@ -188,6 +178,7 @@ export default function ProductOverview() {
                     Add to Cart
                   </button>
                   <button
+                    onClick={() => navigate(`/booking/${key}`)}
                     className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg text-lg transition duration-200"
                   >
                     Book Now
@@ -196,7 +187,7 @@ export default function ProductOverview() {
               </div>
             </div>
 
-            {/* Review Submission */}
+            {/* Review Form */}
             <div className="bg-gray-50 rounded-xl shadow p-6">
               <h2 className="text-2xl font-semibold mb-4">Leave a Review</h2>
               <div className="flex gap-1 mb-3">
@@ -241,24 +232,15 @@ export default function ProductOverview() {
               ) : (
                 <div className="space-y-4">
                   {reviews.map((review, index) => (
-                    <div
-                      key={index}
-                      className="border-b border-gray-100 pb-4 last:border-b-0"
-                    >
+                    <div key={index} className="border-b border-gray-100 pb-4 last:border-b-0">
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2">
                           {renderStars(review.rating, "text-lg")}
-                          <span className="font-medium text-gray-700">
-                            {review.rating}/5
-                          </span>
+                          <span className="font-medium text-gray-700">{review.rating}/5</span>
                         </div>
-                        <span className="text-sm text-gray-500">
-                          {review.date}
-                        </span>
+                        <span className="text-sm text-gray-500">{review.date}</span>
                       </div>
-                      <p className="text-gray-700 leading-relaxed">
-                        {review.comment}
-                      </p>
+                      <p className="text-gray-700 leading-relaxed">{review.comment}</p>
                     </div>
                   ))}
                 </div>
