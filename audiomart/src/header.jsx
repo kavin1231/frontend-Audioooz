@@ -18,7 +18,7 @@ const Header = () => {
     <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-yellow-500 bg-black text-white relative transition-all z-50">
       {/* Logo */}
       <Link to="/">
-        <img className="h-9 " src="/logo-audiomart.png" alt="Company Logo"  />
+        <img className="h-9 " src="/logo-audiomart.png" alt="Company Logo" />
       </Link>
 
       {/* Desktop Menu */}
@@ -111,6 +111,13 @@ const Header = () => {
               <div className="absolute right-0 mt-2 w-40 bg-black border border-yellow-500 rounded-md shadow-lg py-2 z-50">
                 <Link
                   to="/profile"
+                  onClick={() => setDropdownOpen(false)}
+                  className="block px-4 py-2 text-sm text-white hover:bg-yellow-900/20"
+                >
+                  Profile
+                </Link>
+                <Link
+                  to="/profile/edit"
                   onClick={() => setDropdownOpen(false)}
                   className="block px-4 py-2 text-sm text-white hover:bg-yellow-900/20"
                 >

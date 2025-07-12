@@ -6,6 +6,7 @@ import AddItemPage from "./addItemsPage";
 import ItemsPage from "./itemsPage";
 import UpdateItemPage from "./updateItems";
 import OrdersPage from "./ordersPage";
+import AdminInquiryResponsePage from "./AdminInquiryResponsePage";
 
 export default function AdminDashboard() {
   return (
@@ -38,6 +39,15 @@ export default function AdminDashboard() {
             <FaRegUser className="text-lg" />
             <span className="text-base">Users</span>
           </Link>
+          <Link
+            to="/admin/inquiries"
+            className="flex items-center space-x-3 px-4 py-2 hover:bg-green-500 rounded-md transition-all duration-200"
+          >
+            <MdOutlineSpeaker className="text-lg" />
+            <span className="text-base">
+              inquiries
+            </span>
+          </Link>
         </nav>
       </aside>
 
@@ -52,16 +62,12 @@ export default function AdminDashboard() {
               </h1>
             }
           />
-          <Route
-            path="/bookings"
-            element={
-              <OrdersPage/>
-            }
-          />
+          <Route path="/bookings" element={<OrdersPage />} />
           <Route path="/items" element={<ItemsPage />} />
           <Route path="/items/add" element={<AddItemPage />} />
           <Route path="/items/edit" element={<UpdateItemPage />} />
-          
+          <Route path="/inquiries" element={<AdminInquiryResponsePage />} />
+
           <Route
             path="/users"
             element={

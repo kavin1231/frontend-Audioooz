@@ -16,27 +16,32 @@ import CartPage from "./pages/Home/cartPage.jsx";
 import PurchasePage from "./pages/Home/purchasePage.jsx";
 import MyOrdersPage from "./pages/Home/myOrdersPage.jsx";
 import HeroPage from "./pages/Home/heroPage.jsx";
+import InquiriesPage from "./pages/Home/inquiriesPage.jsx";
+import EditProfilePage from "./pages/Home/editprofilePage.jsx";
+import ProfilePage from "./pages/Home/profilePage.jsx";
 
 function App() {
   return (
     <BrowserRouter>
       <Toaster />
       <Routes>
-        <Route path="/" element={<HeroPage/>} />
+        <Route path="/" element={<HeroPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/product" element={<ProductPage />} />
         <Route path="/product/:key" element={<ProductOverview />} />
-        <Route path="/contact" element={<ContactPage />} />
+      
         <Route path="/about" element={<AboutPage />} />
         <Route path="/testing" element={<Testing />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/booking/:key" element={<PurchasePage />} />
-        
-        <Route path="/orders" element={<MyOrdersPage />} />
 
+        <Route path="/orders" element={<MyOrdersPage />} />
+        <Route path="/contact" element={<InquiriesPage />} />
+        <Route path="/profile/edit" element={<EditProfilePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
