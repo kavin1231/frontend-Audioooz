@@ -12,12 +12,15 @@ import {
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import mediaUpload from "../../utils/mediaUpload";
+import Header from "../../header";
 
 export default function ProfilePage() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [preview, setPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
@@ -26,6 +29,7 @@ export default function ProfilePage() {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [imgVersion, setImgVersion] = useState(0);
 
   const navigate = useNavigate();
 
@@ -52,6 +56,7 @@ export default function ProfilePage() {
 
         console.log("API response:", response.data);
         setUser(response.data);
+        setImageError(false); // Reset image error when user data loads
       } catch (err) {
         console.error("Fetch failed:", err);
         setError("Failed to load profile data");
@@ -79,35 +84,61 @@ export default function ProfilePage() {
     }
   }, [success, error]);
 
-  
+  // Debug function to check image issues
+  useEffect(() => {
+    if (user) {
+      console.log("Debug Info:");
+      console.log("User data:", user);
+      console.log("Profile Picture URL:", user?.profilePicture);
+      console.log("Generated URL:", getProfileImageUrl());
+      console.log("Preview:", preview);
+      console.log("First Name:", user?.firstName);
+      console.log("Last Name:", user?.lastName);
+    }
+  }, [user]);
+
+  // Improved profile image URL generation
+  const getProfileImageUrl = () => {
+    if (preview) return preview;
+
+    if (user?.profilePicture && user.profilePicture.trim() !== "") {
+      return `${user.profilePicture}?v=${imgVersion}`; // versioning to bust cache
+    }
+
+    const firstName = user?.firstName || "User";
+    const lastName = user?.lastName || "";
+    const initials = `${firstName}+${lastName}`.replace(/\s+/g, "+");
+
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(
+      initials
+    )}&background=10b981&color=fff&size=128&font-size=0.33`;
+  };
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file type
     const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
     if (!validTypes.includes(file.type)) {
       setError("Please select a valid image file (JPEG, PNG, GIF)");
       return;
     }
 
-    // Validate file size (5MB limit)
     if (file.size > 5 * 1024 * 1024) {
       setError("Image size should be less than 5MB");
       return;
     }
 
-    setPreview(URL.createObjectURL(file));
+    const filePreview = URL.createObjectURL(file);
+    setPreview(filePreview);
     setUploading(true);
+    setImageError(false);
     setError("");
 
     try {
-      // Upload to Supabase using your existing mediaUpload function
       const imageUrl = await mediaUpload(file);
-
-      // Send the imageUrl to your backend
       const token = localStorage.getItem("token");
+
       const response = await axios.post(
         "http://localhost:3005/api/users/upload-profile-picture",
         { imageUrl },
@@ -119,13 +150,19 @@ export default function ProfilePage() {
         }
       );
 
-      // Update user state with new profile picture
+      // Update the user profile picture
       setUser((prev) => ({
         ...prev,
         profilePicture: imageUrl,
       }));
-      setSuccess("Profile picture updated successfully!");
+
+      // Increment version to force image refresh
+      setImgVersion((prev) => prev + 1);
+
       setPreview(null);
+      URL.revokeObjectURL(filePreview);
+      setSuccess("Profile picture updated successfully!");
+      setImageError(false);
     } catch (err) {
       console.error("Upload failed:", err);
       setError(
@@ -133,11 +170,14 @@ export default function ProfilePage() {
           ? err
           : err.response?.data?.error || "Image upload failed"
       );
+
       setPreview(null);
+      URL.revokeObjectURL(filePreview);
     } finally {
       setUploading(false);
     }
   };
+
   const handlePasswordChange = async () => {
     const { currentPassword, newPassword, confirmPassword } = passwordData;
 
@@ -192,6 +232,64 @@ export default function ProfilePage() {
       newPassword: "",
       confirmPassword: "",
     });
+  };
+
+  // Render profile image with better error handling
+  const renderProfileImage = () => {
+    const imageUrl = getProfileImageUrl();
+
+    return (
+      
+      <div className="relative group">
+        
+        <div className="w-32 h-32 rounded-full border-4 border-white shadow-lg bg-gray-200 flex items-center justify-center overflow-hidden">
+          {imageError ? (
+            // Fallback to initials if image fails
+            <div className="w-full h-full bg-green-600 flex items-center justify-center text-white text-2xl font-bold">
+              {(user?.firstName?.[0] || "U").toUpperCase()}
+              {(user?.lastName?.[0] || "").toUpperCase()}
+            </div>
+          ) : (
+            <img
+              src={imageUrl}
+              alt={`${user?.firstName || "User"} ${
+                user?.lastName || ""
+              } Profile`}
+              className="w-full h-full object-cover"
+              key={`${user?.profilePicture || "default"}-${Date.now()}`} // ❌ Remove this line
+              onLoad={() => {
+                setImageLoading(false);
+                setImageError(false);
+                console.log("Profile image loaded successfully");
+              }}
+              onLoadStart={() => setImageLoading(true)}
+              onError={(e) => {
+                console.error("Failed to load profile image, using fallback");
+                setImageLoading(false);
+                setImageError(true);
+              }}
+            />
+          )}
+        </div>
+
+        <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 rounded-full cursor-pointer transition-opacity">
+          <Camera className="text-white opacity-0 group-hover:opacity-100 w-6 h-6" />
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleImageChange}
+            disabled={uploading}
+          />
+        </label>
+
+        {(uploading || imageLoading) && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+          </div>
+        )}
+      </div>
+    );
   };
 
   if (loading) {
@@ -254,42 +352,15 @@ export default function ProfilePage() {
           <div className="bg-gradient-to-r from-green-600 to-green-700 h-32" />
           <div className="relative px-6 pb-6">
             <div className="absolute -top-16 left-6">
-              <div className="relative group">
-                <img
-                  src={
-                    preview ||
-                    user.profilePicture ||
-                    `https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&background=10b981&color=fff&size=128`
-                  }
-                  alt="Profile"
-                  className="w-32 h-32 rounded-full border-4 border-white object-cover shadow-lg"
-                />
-                <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 rounded-full cursor-pointer transition-opacity">
-                  <Camera className="text-white opacity-0 group-hover:opacity-100 w-6 h-6" />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleImageChange}
-                    disabled={uploading}
-                  />
-                </label>
-                {uploading && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
-                  </div>
-                )}
-              </div>
+              {renderProfileImage()}
             </div>
 
             <div className="pt-20 flex flex-col sm:flex-row justify-between items-start gap-4">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">
-                  {user.firstName} {user.lastName}
+                  {user.firstName || "User"} {user.lastName || ""}
                 </h1>
-                <p className="text-gray-600 capitalize mt-1">
-                  {user.role || "User"}
-                </p>
+                <p className="text-gray-600 capitalize mt-1">{user.role}</p>
               </div>
               <div className="flex flex-col sm:flex-row gap-2">
                 <Link
@@ -316,7 +387,7 @@ export default function ProfilePage() {
           <InfoCard title="Personal Information">
             <InfoRow
               label="Email"
-              value={user.email}
+              value={user.email || "Not provided"}
               icon={<Mail className="w-5 h-5" />}
             />
             <InfoRow
