@@ -61,6 +61,9 @@ export default function LoginPage() {
           {/* Google Sign-in Button */}
           <button
             type="button"
+            onClick={() =>
+              (window.location.href = "http://localhost:3005/api/users/google")
+            }
             className="w-full mt-8 bg-gray-800 border border-gray-600 flex items-center justify-center h-12 rounded-full"
           >
             <img

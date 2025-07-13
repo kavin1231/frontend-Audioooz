@@ -37,7 +37,7 @@ export default function RegisterPage() {
     if (validateForm()) {
       setIsLoading(true);
       axios
-        .post(`${BackendUrl}/api/users`, {
+        .post("http://localhost:3005/api/users/register", {
           email,
           password,
           role,
@@ -48,7 +48,7 @@ export default function RegisterPage() {
         })
         .then(() => {
           toast.success("Registration Successful");
-          navigate("/");
+          navigate("/login");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.error || "An error occurred");

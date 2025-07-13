@@ -1,229 +1,475 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaEdit, FaArrowLeft } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import {
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  Edit2,
+  Camera,
+  KeyRound,
+  X,
+} from "lucide-react";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import mediaUpload from "../../utils/mediaUpload";
 
-/**
- * ProfilePage - Component to display user profile information
- */
 export default function ProfilePage() {
-  const [userData, setUserData] = useState(null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [preview, setPreview] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem("token");
 
       if (!token) {
-        window.location.href = "/login";
+        console.warn("No token found, redirecting...");
+        navigate("/login");
         return;
       }
 
       try {
-        const response = await axios.get("http://localhost:3000/api/users/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          "http://localhost:3005/api/users/profile",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-        setUserData(response.data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.log("API response:", response.data);
+        setUser(response.data);
+      } catch (err) {
+        console.error("Fetch failed:", err);
         setError("Failed to load profile data");
+
+        if (err.response?.status === 401 || err.response?.status === 403) {
+          localStorage.removeItem("token");
+          navigate("/login");
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchUserData();
-  }, []);
+  }, [navigate]);
+
+  // Clear messages after 5 seconds
+  useEffect(() => {
+    if (success || error) {
+      const timer = setTimeout(() => {
+        setSuccess("");
+        setError("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [success, error]);
+
+  
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
+    if (!validTypes.includes(file.type)) {
+      setError("Please select a valid image file (JPEG, PNG, GIF)");
+      return;
+    }
+
+    // Validate file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("Image size should be less than 5MB");
+      return;
+    }
+
+    setPreview(URL.createObjectURL(file));
+    setUploading(true);
+    setError("");
+
+    try {
+      // Upload to Supabase using your existing mediaUpload function
+      const imageUrl = await mediaUpload(file);
+
+      // Send the imageUrl to your backend
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:3005/api/users/upload-profile-picture",
+        { imageUrl },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Update user state with new profile picture
+      setUser((prev) => ({
+        ...prev,
+        profilePicture: imageUrl,
+      }));
+      setSuccess("Profile picture updated successfully!");
+      setPreview(null);
+    } catch (err) {
+      console.error("Upload failed:", err);
+      setError(
+        typeof err === "string"
+          ? err
+          : err.response?.data?.error || "Image upload failed"
+      );
+      setPreview(null);
+    } finally {
+      setUploading(false);
+    }
+  };
+  const handlePasswordChange = async () => {
+    const { currentPassword, newPassword, confirmPassword } = passwordData;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setError("All password fields are required");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      setError("New password must be at least 6 characters long");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+
+      await axios.post(
+        "http://localhost:3005/api/users/change-password",
+        { currentPassword, newPassword },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setSuccess("Password changed successfully!");
+      setShowPasswordModal(false);
+      setPasswordData({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+      setError("");
+    } catch (err) {
+      console.error("Password change failed:", err);
+      setError(err.response?.data?.message || "Password change failed");
+    }
+  };
+
+  const closePasswordModal = () => {
+    setShowPasswordModal(false);
+    setError("");
+    setPasswordData({
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    });
+  };
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="text-lg text-gray-600">Loading profile...</div>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+          <div className="text-lg text-gray-600">Loading profile...</div>
+        </div>
       </div>
     );
   }
 
-  if (error) {
+  if (!user) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-        <div className="text-red-700">{error}</div>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-lg text-gray-600">Unable to load profile</div>
+          {error && <div className="text-red-500 mt-2">{error}</div>}
+          <button
+            onClick={() => navigate("/login")}
+            className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+          >
+            Go to Login
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <Link
-            to="/farmer/orders"
-            className="text-gray-600 hover:text-gray-800 transition-colors"
-          >
-            <FaArrowLeft size={18} />
-          </Link>
-          <h1 className="text-2xl font-bold text-gray-800">My Profile</h1>
-        </div>
-        <Link
-          to="/farmer/profile/edit"
-          className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300"
-        >
-          <FaEdit size={16} />
-          Edit Profile
-        </Link>
-      </div>
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        {/* Success/Error Messages */}
+        {success && (
+          <div className="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+            {success}
+            <button
+              onClick={() => setSuccess("")}
+              className="absolute top-0 right-0 mt-2 mr-2 text-green-700 hover:text-green-900"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+        {error && (
+          <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+            {error}
+            <button
+              onClick={() => setError("")}
+              className="absolute top-0 right-0 mt-2 mr-2 text-red-700 hover:text-red-900"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        )}
 
-      {/* Profile Card */}
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
         {/* Profile Header */}
-        <div className="bg-gradient-to-r from-green-600 to-green-700 p-6 text-white">
-          <div className="flex items-center gap-4">
-            <div className="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-              <FaUser size={32} className="text-white" />
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-gradient-to-r from-green-600 to-green-700 h-32" />
+          <div className="relative px-6 pb-6">
+            <div className="absolute -top-16 left-6">
+              <div className="relative group">
+                <img
+                  src={
+                    preview ||
+                    user.profilePicture ||
+                    `https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&background=10b981&color=fff&size=128`
+                  }
+                  alt="Profile"
+                  className="w-32 h-32 rounded-full border-4 border-white object-cover shadow-lg"
+                />
+                <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 rounded-full cursor-pointer transition-opacity">
+                  <Camera className="text-white opacity-0 group-hover:opacity-100 w-6 h-6" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageChange}
+                    disabled={uploading}
+                  />
+                </label>
+                {uploading && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                  </div>
+                )}
+              </div>
             </div>
-            <div>
-              <h2 className="text-2xl font-bold">
-                {userData?.firstName && userData?.lastName 
-                  ? `${userData.firstName} ${userData.lastName}` 
-                  : "N/A"}
-              </h2>
-              <p className="text-green-100 capitalize">{userData?.role || "N/A"}</p>
+
+            <div className="pt-20 flex flex-col sm:flex-row justify-between items-start gap-4">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">
+                  {user.firstName} {user.lastName}
+                </h1>
+                <p className="text-gray-600 capitalize mt-1">
+                  {user.role || "User"}
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Link
+                  to="/profile/edit"
+                  className="inline-flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  <Edit2 className="w-4 h-4 mr-2" />
+                  Edit Profile
+                </Link>
+                <button
+                  onClick={() => setShowPasswordModal(true)}
+                  className="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  <KeyRound className="w-4 h-4 mr-2" />
+                  Change Password
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Profile Details */}
-        <div className="p-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Personal Information */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">
-                Personal Information
-              </h3>
-              
-              <div className="flex items-center gap-3">
-                <FaUser className="text-gray-500" size={16} />
-                <div>
-                  <label className="text-sm text-gray-500">First Name</label>
-                  <div className="font-medium text-gray-800">
-                    {userData?.firstName || "Not provided"}
-                  </div>
-                </div>
-              </div>
+        {/* Profile Info */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <InfoCard title="Personal Information">
+            <InfoRow
+              label="Email"
+              value={user.email}
+              icon={<Mail className="w-5 h-5" />}
+            />
+            <InfoRow
+              label="Phone"
+              value={user.phone || "Not provided"}
+              icon={<Phone className="w-5 h-5" />}
+            />
+            <InfoRow
+              label="Address"
+              value={user.address || "Not provided"}
+              icon={<MapPin className="w-5 h-5" />}
+            />
+          </InfoCard>
 
-              <div className="flex items-center gap-3">
-                <FaUser className="text-gray-500" size={16} />
-                <div>
-                  <label className="text-sm text-gray-500">Last Name</label>
-                  <div className="font-medium text-gray-800">
-                    {userData?.lastName || "Not provided"}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <FaEnvelope className="text-gray-500" size={16} />
-                <div>
-                  <label className="text-sm text-gray-500">Email Address</label>
-                  <div className="font-medium text-gray-800">
-                    {userData?.email || "Not provided"}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <FaPhone className="text-gray-500" size={16} />
-                <div>
-                  <label className="text-sm text-gray-500">Phone Number</label>
-                  <div className="font-medium text-gray-800">
-                    {userData?.phone || "Not provided"}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <FaMapMarkerAlt className="text-gray-500" size={16} />
-                <div>
-                  <label className="text-sm text-gray-500">Address</label>
-                  <div className="font-medium text-gray-800">
-                    {userData?.address || "Not provided"}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Additional Information */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">
-                Account Information
-              </h3>
-              
-              <div className="flex items-center gap-3">
-                <FaUser className="text-gray-500" size={16} />
-                <div>
-                  <label className="text-sm text-gray-500">Role</label>
-                  <div className="font-medium text-gray-800 capitalize">
-                    {userData?.role || "Not specified"}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <FaUser className="text-gray-500" size={16} />
-                <div>
-                  <label className="text-sm text-gray-500">Account Status</label>
-                  <div className={`font-medium ${userData?.isBlocked ? 'text-red-600' : 'text-green-600'}`}>
-                    {userData?.isBlocked ? "Blocked" : "Active"}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <FaUser className="text-gray-500" size={16} />
-                <div>
-                  <label className="text-sm text-gray-500">Email Verified</label>
-                  <div className={`font-medium ${userData?.emailVerified ? 'text-green-600' : 'text-orange-600'}`}>
-                    {userData?.emailVerified ? "Yes" : "Pending"}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Account Information */}
-          <div className="border-t pt-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">
-              Account Details
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="text-sm text-gray-500">Member Since</label>
-                <div className="font-medium text-gray-800">
-                  {userData?.createdAt 
-                    ? new Date(userData.createdAt).toLocaleDateString() 
-                    : "N/A"}
-                </div>
-              </div>
-              <div>
-                <label className="text-sm text-gray-500">Account Status</label>
-                <div className={`font-medium ${userData?.isBlocked ? 'text-red-600' : 'text-green-600'}`}>
-                  {userData?.isBlocked ? "Blocked" : "Active"}
-                </div>
-              </div>
-              <div>
-                <label className="text-sm text-gray-500">Email Verified</label>
-                <div className={`font-medium ${userData?.emailVerified ? 'text-green-600' : 'text-orange-600'}`}>
-                  {userData?.emailVerified ? "Yes" : "Pending"}
-                </div>
-              </div>
-            </div>
-          </div>
+          <InfoCard title="Account Information">
+            <InfoRow
+              label="Role"
+              value={user.role || "User"}
+              icon={<User className="w-5 h-5" />}
+            />
+            <InfoRow
+              label="Account Status"
+              value={user.isBlocked ? "Blocked" : "Active"}
+              icon={<User className="w-5 h-5" />}
+            />
+            <InfoRow
+              label="Email Verified"
+              value={user.emailVerified ? "Yes" : "No"}
+              icon={<Mail className="w-5 h-5" />}
+            />
+            <InfoRow
+              label="Member Since"
+              value={
+                user.createdAt
+                  ? new Date(user.createdAt).toLocaleDateString()
+                  : "N/A"
+              }
+              icon={<User className="w-5 h-5" />}
+            />
+          </InfoCard>
         </div>
       </div>
+
+      {/* Password Change Modal */}
+      {showPasswordModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Change Password</h2>
+              <button
+                onClick={closePasswordModal}
+                className="text-gray-500 hover:text-gray-700 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {error && (
+              <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded text-sm">
+                {error}
+              </div>
+            )}
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Current Password
+                </label>
+                <input
+                  type="password"
+                  placeholder="Enter current password"
+                  className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={passwordData.currentPassword}
+                  onChange={(e) =>
+                    setPasswordData({
+                      ...passwordData,
+                      currentPassword: e.target.value,
+                    })
+                  }
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  placeholder="Enter new password"
+                  className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={passwordData.newPassword}
+                  onChange={(e) =>
+                    setPasswordData({
+                      ...passwordData,
+                      newPassword: e.target.value,
+                    })
+                  }
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  placeholder="Confirm new password"
+                  className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={passwordData.confirmPassword}
+                  onChange={(e) =>
+                    setPasswordData({
+                      ...passwordData,
+                      confirmPassword: e.target.value,
+                    })
+                  }
+                />
+              </div>
+
+              <div className="flex gap-2 pt-4">
+                <button
+                  onClick={handlePasswordChange}
+                  className="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                >
+                  Update Password
+                </button>
+                <button
+                  onClick={closePasswordModal}
+                  className="px-4 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors font-medium"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
+const InfoRow = ({ icon, label, value }) => (
+  <div className="flex items-center gap-3 mb-3 last:mb-0">
+    <div className="text-gray-500 flex-shrink-0">{icon}</div>
+    <div className="flex-1">
+      <p className="text-sm text-gray-500">{label}</p>
+      <p className="text-gray-800 font-medium">{value}</p>
+    </div>
+  </div>
+);
+
+const InfoCard = ({ title, children }) => (
+  <div className="bg-white rounded-lg shadow-md p-6">
+    <h2 className="text-xl font-semibold mb-4 text-gray-800">{title}</h2>
+    {children}
+  </div>
+);
