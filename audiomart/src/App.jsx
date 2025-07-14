@@ -10,7 +10,7 @@ import LoginPage from "./pages/Login & Registration/login.jsx";
 
 import { Toaster } from "react-hot-toast";
 import ProductPage from "./pages/Home/productPage.jsx";
-import RegisterPage from "./pages/Login & Registration/RegisterPage.jsx";
+import RegisterPage from "./pages/Login & Registration/registerPage.jsx";
 import ProductOverview from "./pages/Home/productOverview.jsx";
 import CartPage from "./pages/Home/cartPage.jsx";
 import PurchasePage from "./pages/Home/purchasePage.jsx";
@@ -31,7 +31,7 @@ function App() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/product" element={<ProductPage />} />
         <Route path="/product/:key" element={<ProductOverview />} />
-      
+
         <Route path="/about" element={<AboutPage />} />
         <Route path="/testing" element={<Testing />} />
         <Route path="/register" element={<RegisterPage />} />
