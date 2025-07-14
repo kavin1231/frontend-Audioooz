@@ -6,11 +6,11 @@ import ContactPage from "./pages/Home/contactPage.jsx";
 import AboutPage from "./pages/Home/aboutPage.jsx";
 import NotFoundPage from "./pages/Home/notFoundPage.jsx";
 import Testing from "./components/testing.jsx";
-import LoginPage from "./pages/Login & Registration/login.jsx";
+import LoginPage from "./pages/Login&Registration/login.jsx";
 
 import { Toaster } from "react-hot-toast";
 import ProductPage from "./pages/Home/productPage.jsx";
-import RegisterPage from "./pages/Login & Registration/registerPage.jsx";
+import RegisterPage from "./pages/Login&Registration/registerPage.jsx";
 import ProductOverview from "./pages/Home/productOverview.jsx";
 import CartPage from "./pages/Home/cartPage.jsx";
 import PurchasePage from "./pages/Home/purchasePage.jsx";

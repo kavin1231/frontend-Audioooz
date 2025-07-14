@@ -85,7 +85,11 @@ export default function RegisterPage() {
           <h2 className="text-4xl text-white font-medium" data-aos="zoom-in">
             Sign up
           </h2>
-          <p className="text-sm text-gray-400 mt-3" data-aos="fade-up" data-aos-delay="100">
+          <p
+            className="text-sm text-gray-400 mt-3"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
             Create your account to get started
           </p>
 
@@ -146,7 +150,12 @@ export default function RegisterPage() {
               delay: 700,
             },
           ].map((field, idx) => (
-            <div key={idx} className="w-full mt-4" data-aos="fade-up" data-aos-delay={field.delay}>
+            <div
+              key={idx}
+              className="w-full mt-4"
+              data-aos="fade-up"
+              data-aos-delay={field.delay}
+            >
               <div
                 className={`flex items-center bg-transparent border ${
                   field.error ? "border-red-500" : "border-gray-700"
@@ -208,7 +217,11 @@ export default function RegisterPage() {
           </button>
 
           {/* Link to Login */}
-          <p className="text-gray-400 text-sm mt-4" data-aos="fade-up" data-aos-delay="1000">
+          <p
+            className="text-gray-400 text-sm mt-4"
+            data-aos="fade-up"
+            data-aos-delay="1000"
+          >
             Already have an account?{" "}
             <Link to="/login" className="text-yellow-400 hover:underline">
               Sign in
