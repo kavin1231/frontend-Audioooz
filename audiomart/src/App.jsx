@@ -2,7 +2,6 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom"; // 👈 Import router
 import AdminDashboard from "./pages/Admin/adminDashboard.jsx";
 import HomePage from "./pages/Home/homePage.jsx";
-import ContactPage from "./pages/Home/contactPage.jsx";
 import AboutPage from "./pages/Home/aboutPage.jsx";
 import NotFoundPage from "./pages/Home/notFoundPage.jsx";
 import Testing from "./components/testing.jsx";
@@ -10,7 +9,7 @@ import LoginPage from "./pages/Login&Registration/login.jsx";
 
 import { Toaster } from "react-hot-toast";
 import ProductPage from "./pages/Home/productPage.jsx";
-import RegisterPage from "./pages/Login&Registration/registerPage.jsx";
+
 import ProductOverview from "./pages/Home/productOverview.jsx";
 import CartPage from "./pages/Home/cartPage.jsx";
 import PurchasePage from "./pages/Home/purchasePage.jsx";
@@ -19,6 +18,7 @@ import HeroPage from "./pages/Home/heroPage.jsx";
 import InquiriesPage from "./pages/Home/inquiriesPage.jsx";
 import EditProfilePage from "./pages/Home/editprofilePage.jsx";
 import ProfilePage from "./pages/Home/profilePage.jsx";
+import RegisterPage from "./pages/Login&Registration/registerPage.jsx";
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function App() {
 
         <Route path="/about" element={<AboutPage />} />
         <Route path="/testing" element={<Testing />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/register" element={<RegisterPage/>}/>
         <Route path="/cart" element={<CartPage />} />
         <Route path="/booking/:key" element={<PurchasePage />} />
 
