@@ -42,7 +42,7 @@ export default function RegisterPage() {
     if (validateForm()) {
       setIsLoading(true);
       axios
-        .post(`${BackendUrl}/api/users/register`, {
+        .post(`${BackendUrl}/api/users/`, {
           email,
           password,
           role,
