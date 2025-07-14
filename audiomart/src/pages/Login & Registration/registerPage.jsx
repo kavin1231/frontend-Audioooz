@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export default function RegisterPage() {
   const [firstName, setFirstName] = useState("");
@@ -15,9 +17,12 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
+
   const validateForm = () => {
     const newErrors = {};
-
     if (!firstName.trim()) newErrors.firstName = "First Name is required";
     if (!lastName.trim()) newErrors.lastName = "Last Name is required";
     if (!email.trim()) newErrors.email = "Email is required";
@@ -37,7 +42,7 @@ export default function RegisterPage() {
     if (validateForm()) {
       setIsLoading(true);
       axios
-        .post("http://localhost:3005/api/users/register", {
+        .post(`${BackendUrl}/api/users/register`, {
           email,
           password,
           role,
@@ -60,11 +65,11 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex h-[800px] w-full bg-black text-white">
+    <div className="flex h-full w-full bg-black text-white">
       {/* Left Side Image */}
-      <div className="w-full hidden md:inline-block">
+      <div className="w-full hidden md:inline-block" data-aos="fade-right">
         <img
-          className="h-full"
+          className="h-full object-cover"
           src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/leftSideImage.png"
           alt="leftSideImage"
         />
@@ -75,9 +80,12 @@ export default function RegisterPage() {
         <form
           onSubmit={handleOnSubmit}
           className="md:w-[450px] w-80 flex flex-col items-center justify-center"
+          data-aos="fade-up"
         >
-          <h2 className="text-4xl text-white font-medium">Sign up</h2>
-          <p className="text-sm text-gray-400 mt-3">
+          <h2 className="text-4xl text-white font-medium" data-aos="zoom-in">
+            Sign up
+          </h2>
+          <p className="text-sm text-gray-400 mt-3" data-aos="fade-up" data-aos-delay="100">
             Create your account to get started
           </p>
 
@@ -90,6 +98,7 @@ export default function RegisterPage() {
               type: "text",
               error: errors.firstName,
               name: "firstName",
+              delay: 200,
             },
             {
               label: "Last Name",
@@ -98,6 +107,7 @@ export default function RegisterPage() {
               type: "text",
               error: errors.lastName,
               name: "lastName",
+              delay: 300,
             },
             {
               label: "Email",
@@ -106,6 +116,7 @@ export default function RegisterPage() {
               type: "email",
               error: errors.email,
               name: "email",
+              delay: 400,
             },
             {
               label: "Password",
@@ -114,6 +125,7 @@ export default function RegisterPage() {
               type: "password",
               error: errors.password,
               name: "password",
+              delay: 500,
             },
             {
               label: "Address",
@@ -122,6 +134,7 @@ export default function RegisterPage() {
               type: "text",
               error: errors.address,
               name: "address",
+              delay: 600,
             },
             {
               label: "Phone",
@@ -130,9 +143,10 @@ export default function RegisterPage() {
               type: "text",
               error: errors.phone,
               name: "phone",
+              delay: 700,
             },
           ].map((field, idx) => (
-            <div key={idx} className="w-full mt-4">
+            <div key={idx} className="w-full mt-4" data-aos="fade-up" data-aos-delay={field.delay}>
               <div
                 className={`flex items-center bg-transparent border ${
                   field.error ? "border-red-500" : "border-gray-700"
@@ -155,7 +169,7 @@ export default function RegisterPage() {
           ))}
 
           {/* Role Select */}
-          <div className="w-full mt-4">
+          <div className="w-full mt-4" data-aos="fade-up" data-aos-delay="800">
             <label
               htmlFor="role"
               className={`block mb-1 text-sm font-medium ${
@@ -187,12 +201,14 @@ export default function RegisterPage() {
             type="submit"
             disabled={isLoading}
             className="mt-8 w-full h-11 rounded-full text-white bg-yellow-400 hover:bg-yellow-500 transition"
+            data-aos="fade-up"
+            data-aos-delay="900"
           >
             {isLoading ? "Creating..." : "Create Account"}
           </button>
 
           {/* Link to Login */}
-          <p className="text-gray-400 text-sm mt-4">
+          <p className="text-gray-400 text-sm mt-4" data-aos="fade-up" data-aos-delay="1000">
             Already have an account?{" "}
             <Link to="/login" className="text-yellow-400 hover:underline">
               Sign in
