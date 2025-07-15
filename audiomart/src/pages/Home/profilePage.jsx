@@ -15,6 +15,8 @@ import mediaUpload from "../../utils/mediaUpload";
 import Header from "../../header";
 import Footer from "../../footer";
 
+const BackendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export default function ProfilePage() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -42,15 +44,12 @@ export default function ProfilePage() {
         return;
       }
       try {
-        const response = await axios.get(
-          "http://localhost:3005/api/users/profile",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await axios.get(`${BackendUrl}/api/users/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         setUser(response.data);
         setImageError(false);
       } catch (err) {
@@ -111,7 +110,7 @@ export default function ProfilePage() {
       const imageUrl = await mediaUpload(file);
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://localhost:3005/api/users/upload-profile-picture",
+        `${BackendUrl}/api/users/upload-profile-picture`,
         { imageUrl },
         {
           headers: {
@@ -161,7 +160,7 @@ export default function ProfilePage() {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://localhost:3005/api/users/change-password",
+        `${BackendUrl}/api/users/change-password`,
         { currentPassword, newPassword },
         {
           headers: {
@@ -270,9 +269,9 @@ export default function ProfilePage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-
       <main className="flex-grow bg-gray-50 py-8">
         <div className="max-w-4xl mx-auto px-4">
+          {/* Feedback */}
           {success && (
             <div className="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
               {success}
@@ -296,11 +295,13 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {/* Profile Header */}
+          {/* Profile UI */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="bg-gradient-to-r from-green-600 to-green-700 h-32" />
             <div className="relative px-6 pb-6">
-              <div className="absolute -top-16 left-6">{renderProfileImage()}</div>
+              <div className="absolute -top-16 left-6">
+                {renderProfileImage()}
+              </div>
               <div className="pt-20 flex flex-col sm:flex-row justify-between items-start gap-4">
                 <div>
                   <h1 className="text-3xl font-bold text-gray-900">
@@ -328,23 +329,42 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Profile Info */}
+          {/* Details */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
             <InfoCard title="Personal Information">
               <InfoRow label="Email" value={user.email} icon={<Mail />} />
-              <InfoRow label="Phone" value={user.phone || "N/A"} icon={<Phone />} />
-              <InfoRow label="Address" value={user.address || "N/A"} icon={<MapPin />} />
+              <InfoRow
+                label="Phone"
+                value={user.phone || "N/A"}
+                icon={<Phone />}
+              />
+              <InfoRow
+                label="Address"
+                value={user.address || "N/A"}
+                icon={<MapPin />}
+              />
             </InfoCard>
             <InfoCard title="Account Information">
               <InfoRow label="Role" value={user.role} icon={<User />} />
-              <InfoRow label="Status" value={user.isBlocked ? "Blocked" : "Active"} icon={<User />} />
-              <InfoRow label="Email Verified" value={user.emailVerified ? "Yes" : "No"} icon={<Mail />} />
-              <InfoRow label="Member Since" value={new Date(user.createdAt).toLocaleDateString()} icon={<User />} />
+              <InfoRow
+                label="Status"
+                value={user.isBlocked ? "Blocked" : "Active"}
+                icon={<User />}
+              />
+              <InfoRow
+                label="Email Verified"
+                value={user.emailVerified ? "Yes" : "No"}
+                icon={<Mail />}
+              />
+              <InfoRow
+                label="Member Since"
+                value={new Date(user.createdAt).toLocaleDateString()}
+                icon={<User />}
+              />
             </InfoCard>
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   );

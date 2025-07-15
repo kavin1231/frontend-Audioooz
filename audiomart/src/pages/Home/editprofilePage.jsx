@@ -12,6 +12,9 @@ import axios from "axios";
 import Header from "../../header";
 import Footer from "../../footer";
 
+
+const BackendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export default function EditProfilePage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -37,7 +40,7 @@ export default function EditProfilePage() {
 
       try {
         const response = await axios.get(
-          "http://localhost:3005/api/users/profile",
+          `${BackendUrl}/api/users/profile`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -81,7 +84,7 @@ export default function EditProfilePage() {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.put("http://localhost:3005/api/users/profile", formData, {
+      await axios.put(`${BackendUrl}/api/users/profile`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

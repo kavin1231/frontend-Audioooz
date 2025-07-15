@@ -8,10 +8,11 @@ import {
   CheckCircle,
   Clock,
 } from "lucide-react";
+import Header from "../../header";
+import Footer from "../../footer";
 
-// Import your layout components
-import Header from "../../header"; // Adjust the path as needed
-import Footer from "../../footer"; // Adjust the path as needed
+// ✅ Backend URL from environment variable
+const BackendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default function MyOrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -22,7 +23,7 @@ export default function MyOrdersPage() {
     const fetchOrders = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:3005/api/orders", {
+        const response = await fetch(`${BackendUrl}/api/orders`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -138,7 +139,6 @@ export default function MyOrdersPage() {
     </div>
   );
 
-  // Sort orders by date - LATEST FIRST (newest to oldest)
   const sortedOrders = [...orders].sort(
     (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
   );

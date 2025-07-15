@@ -3,6 +3,8 @@ import axios from "axios";
 import Header from "../../header";
 import Footer from "../../footer";
 
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 export default function UserPage() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,15 +20,11 @@ export default function UserPage() {
       }
 
       try {
-        const response = await axios.get(
-          "http://localhost:3005/api/users/all",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
+        const response = await axios.get(`${API_BASE_URL}/api/users/all`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setUsers(response.data);
       } catch (err) {
         console.error("Error fetching users:", err);

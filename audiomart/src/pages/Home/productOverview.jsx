@@ -6,6 +6,9 @@ import toast from "react-hot-toast";
 import Header from "../../header.jsx";
 import Footer from "../../footer.jsx";
 
+// ✅ Backend URL from environment variable
+const BackendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export default function ProductOverview() {
   const { key } = useParams();
   const navigate = useNavigate();
@@ -21,7 +24,7 @@ export default function ProductOverview() {
     if (!key) return;
 
     axios
-      .get(`http://localhost:3005/api/products/${key}`)
+      .get(`${BackendUrl}/api/products/${key}`)
       .then((res) => {
         setProduct(res.data);
         setSelectedImage(res.data.image?.[0] || "");

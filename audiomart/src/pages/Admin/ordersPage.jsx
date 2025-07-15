@@ -7,6 +7,7 @@ export default function OrdersPage() {
   const [error, setError] = useState(null);
 
   const token = localStorage.getItem("token");
+  const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -16,7 +17,7 @@ export default function OrdersPage() {
       }
 
       try {
-        const response = await axios.get("http://localhost:3005/api/orders/", {
+        const response = await axios.get(`${API_BASE_URL}/api/orders/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -30,12 +31,12 @@ export default function OrdersPage() {
     };
 
     fetchOrders();
-  }, [token]);
+  }, [token, API_BASE_URL]);
 
   const updateOrderStatus = async (orderId, status) => {
     try {
       const response = await axios.put(
-        `http://localhost:3005/api/orders/${orderId}`,
+        `${API_BASE_URL}/api/orders/${orderId}`,
         { status },
         {
           headers: {
@@ -45,10 +46,10 @@ export default function OrdersPage() {
       );
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
-          order.orderId === orderId ? response.data.order : order
+          order._id === response.data.order._id ? response.data.order : order
         )
       );
-    } catch (err) {
+    } catch {
       alert("Failed to update order status");
     }
   };
@@ -62,10 +63,15 @@ export default function OrdersPage() {
     }, 0);
   };
 
-  const totalAmount = orders.reduce((sum, order) => sum + getOrderTotal(order), 0);
+  const totalAmount = orders.reduce(
+    (sum, order) => sum + getOrderTotal(order),
+    0
+  );
 
-  if (loading) return <div className="text-center mt-10">Loading orders...</div>;
-  if (error) return <div className="text-red-600 text-center mt-10">{error}</div>;
+  if (loading)
+    return <div className="text-center mt-10">Loading orders...</div>;
+  if (error)
+    return <div className="text-red-600 text-center mt-10">{error}</div>;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
@@ -88,17 +94,31 @@ export default function OrdersPage() {
               className="border rounded-xl p-6 shadow-lg bg-white"
             >
               <div className="flex justify-between flex-wrap gap-4 mb-4">
-                <div><span className="font-semibold">Order ID:</span> {order.orderId}</div>
-                <div><span className="font-semibold">Date:</span> {new Date(order.date).toLocaleDateString()}</div>
-                <div><span className="font-semibold">Status:</span> {order.status}</div>
-                <div><span className="font-semibold">Total:</span> LKR {getOrderTotal(order).toFixed(2)}</div>
+                <div>
+                  <span className="font-semibold">Order ID:</span>{" "}
+                  {order.orderId}
+                </div>
+                <div>
+                  <span className="font-semibold">Date:</span>{" "}
+                  {new Date(order.date).toLocaleDateString()}
+                </div>
+                <div>
+                  <span className="font-semibold">Status:</span> {order.status}
+                </div>
+                <div>
+                  <span className="font-semibold">Total:</span> LKR{" "}
+                  {getOrderTotal(order).toFixed(2)}
+                </div>
               </div>
 
               <div>
                 <h3 className="font-semibold mb-2">Items:</h3>
                 <ul className="space-y-3">
                   {order.orderedItems.map((item, index) => (
-                    <li key={index} className="flex items-center gap-4 border p-2 rounded-md">
+                    <li
+                      key={index}
+                      className="flex items-center gap-4 border p-2 rounded-md"
+                    >
                       <img
                         src={item.image}
                         alt={item.name}
@@ -107,7 +127,8 @@ export default function OrdersPage() {
                       <div>
                         <div className="font-medium">{item.name}</div>
                         <div className="text-sm text-gray-600">
-                          Quantity: {item.quantity} | Price: LKR {item.price.toFixed(2)}
+                          Quantity: {item.quantity} | Price: LKR{" "}
+                          {parseFloat(item.price).toFixed(2)}
                         </div>
                       </div>
                     </li>
@@ -125,13 +146,13 @@ export default function OrdersPage() {
                 <div className="mt-6 flex gap-4">
                   <button
                     className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                    onClick={() => updateOrderStatus(order.orderId, "Accepted")}
+                    onClick={() => updateOrderStatus(order._id, "Accepted")}
                   >
                     Accept
                   </button>
                   <button
                     className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                    onClick={() => updateOrderStatus(order.orderId, "Declined")}
+                    onClick={() => updateOrderStatus(order._id, "Declined")}
                   >
                     Decline
                   </button>

@@ -7,6 +7,9 @@ import Footer from "../../footer";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
+
+const BackendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export default function ProductPage() {
   const [state, setState] = useState("loading");
   const [items, setItems] = useState([]);
@@ -16,7 +19,7 @@ export default function ProductPage() {
 
     if (state === "loading") {
       axios
-        .get(`http://localhost:3005/api/products`)
+        .get(`${BackendUrl}/api/products`)
         .then((res) => {
           setItems(res.data);
           setState("success");

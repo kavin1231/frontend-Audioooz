@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
+// ✅ Get backend URL from environment
+const BackendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export default function PurchasePage() {
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
@@ -9,19 +12,18 @@ export default function PurchasePage() {
   const [paymentMethod, setPaymentMethod] = useState("visa");
   const [orderStatus, setOrderStatus] = useState(null);
 
-  // Personal info state
+  // Personal info
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  // Address info state
+  // Address info
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
 
   useEffect(() => {
-    // Decode JWT token to get personal info
     const token = localStorage.getItem("token");
     if (token) {
       try {
@@ -42,7 +44,7 @@ export default function PurchasePage() {
 
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3005/api/products/");
+        const response = await axios.get(`${BackendUrl}/api/products`);
         const allProducts = response.data;
         const filteredProducts = allProducts.filter((product) =>
           cart.some((item) => item.key && item.key === product.key)
@@ -66,40 +68,36 @@ export default function PurchasePage() {
     }
   }, [orderStatus]);
 
-  const calculateSubtotal = () => {
-    return cartItems.reduce((sum, item) => {
+  const calculateSubtotal = () =>
+    cartItems.reduce((sum, item) => {
       const product = products.find((p) => p.key === item.key);
       if (!product) return sum;
       return sum + product.price * item.qty;
     }, 0);
-  };
 
   const deliveryFee = 0;
   const transactionFee = calculateSubtotal() * 0.03;
   const total = calculateSubtotal() + deliveryFee + transactionFee;
 
   const handleConfirmCOD = async () => {
+    const token = localStorage.getItem("token");
+    const fullAddress = `${address}, ${city}, ${postalCode}`.trim();
+
+    if (!fullAddress || fullAddress === ", ,") {
+      alert("Please enter a valid address.");
+      return;
+    }
+
+    const orderData = {
+      orderedItems: cartItems,
+      totalAmount: total,
+      paymentMethod: "cod",
+      buyerInfo: { firstName, lastName, email, phone },
+      address: fullAddress,
+    };
+
     try {
-      const token = localStorage.getItem("token");
-      const fullAddress = `${address}, ${city}, ${postalCode}`.trim();
-      if (!fullAddress || fullAddress === ", ,") {
-        alert("Please enter a valid address.");
-        return;
-      }
-      const orderData = {
-        orderedItems: cartItems,
-        totalAmount: total,
-        paymentMethod: "cod",
-        buyerInfo: {
-          firstName,
-          lastName,
-          email,
-          phone,
-        },
-        address: fullAddress,
-      };
-      console.log("Order data to send:", orderData);
-      await axios.post("http://localhost:3005/api/orders", orderData, {
+      await axios.post(`${BackendUrl}/api/orders`, orderData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -226,13 +224,11 @@ export default function PurchasePage() {
               />
             </div>
 
-            {/* Payment */}
+            {/* Payment Method */}
             <div className="bg-gray-100 p-6 rounded-xl shadow-sm">
               <h2 className="font-semibold text-lg mb-4">Payment Method</h2>
 
               <div className="space-y-4">
-                <label className="flex items-center space-x-3"></label>
-
                 <label className="flex items-center space-x-3">
                   <input
                     type="radio"
@@ -260,7 +256,7 @@ export default function PurchasePage() {
             </div>
           </div>
 
-          {/* Right Column */}
+          {/* Right Column (Order Summary) */}
           <div className="bg-gray-100 p-6 rounded-xl shadow-sm">
             <h2 className="font-semibold text-lg mb-4">Order Summary</h2>
 

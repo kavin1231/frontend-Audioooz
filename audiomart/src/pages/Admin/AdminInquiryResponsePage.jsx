@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3005";
+
 export default function AdminInquiryResponsePage() {
   const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,14 +14,11 @@ export default function AdminInquiryResponsePage() {
     const fetchInquiries = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(
-          "http://localhost:3005/api/inquiries/",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`${API_BASE_URL}/api/inquiries/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setInquiries(response.data);
         setLoading(false);
       } catch (err) {
@@ -35,18 +34,17 @@ export default function AdminInquiryResponsePage() {
   };
 
   const handleSubmitResponse = async (inquiryId) => {
-    if (!responseTexts[inquiryId] || responseTexts[inquiryId].trim() === "")
-      return;
+    const responseText = responseTexts[inquiryId]?.trim();
+    if (!responseText) return;
 
     setSubmitting((prev) => ({ ...prev, [inquiryId]: true }));
     setError(null);
 
     try {
       const token = localStorage.getItem("token");
-
       await axios.put(
-        `http://localhost:3005/api/inquiries/${inquiryId}/response`,
-        { response: responseTexts[inquiryId] },
+        `${API_BASE_URL}/api/inquiries/${inquiryId}/response`,
+        { response: responseText },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -54,9 +52,7 @@ export default function AdminInquiryResponsePage() {
 
       setInquiries((prev) =>
         prev.map((inquiry) =>
-          inquiry.id === inquiryId
-            ? { ...inquiry, response: responseTexts[inquiryId] }
-            : inquiry
+          inquiry.id === inquiryId ? { ...inquiry, response: responseText } : inquiry
         )
       );
       setResponseTexts((prev) => ({ ...prev, [inquiryId]: "" }));
@@ -69,7 +65,10 @@ export default function AdminInquiryResponsePage() {
 
   if (loading)
     return <div className="text-center py-8">Loading inquiries...</div>;
-  if (error) return <div className="text-red-600 text-center">{error}</div>;
+
+  if (error)
+    return <div className="text-red-600 text-center py-8">{error}</div>;
+
   if (inquiries.length === 0)
     return <div className="text-center py-8">No inquiries found.</div>;
 
@@ -102,21 +101,17 @@ export default function AdminInquiryResponsePage() {
                   className="border-b hover:bg-gray-50 transition"
                 >
                   <td className="py-3 px-4 align-top">{inquiry.message}</td>
-                  <td className="py-3 px-4 align-top text-gray-600">
+                  <td className="py-3 px-4 align-top text-gray-600 whitespace-pre-wrap">
                     {inquiry.response || (
-                      <span className="italic text-gray-400">
-                        No response yet
-                      </span>
+                      <span className="italic text-gray-400">No response yet</span>
                     )}
                   </td>
                   <td className="py-3 px-4 align-top">
                     <textarea
                       rows={2}
                       value={responseTexts[inquiry.id] || ""}
-                      onChange={(e) =>
-                        handleResponseChange(inquiry.id, e.target.value)
-                      }
-                      className="w-full p-2 border border-gray-300 rounded mb-2 outline-none focus:border-indigo-400"
+                      onChange={(e) => handleResponseChange(inquiry.id, e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded mb-2 outline-none focus:border-indigo-400 resize-none"
                       placeholder="Type your response..."
                     />
                     <button

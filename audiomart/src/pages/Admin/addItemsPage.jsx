@@ -4,6 +4,9 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import mediaUpload from "../../utils/mediaUpload";
 
+// ✅ Backend URL from environment
+const BackendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export default function AddItemPage() {
   const [productKey, setProductKey] = useState("");
   const [productName, setProductName] = useState("");
@@ -15,65 +18,39 @@ export default function AddItemPage() {
   const navigate = useNavigate();
 
   async function handleAddItem() {
-    const promises = [];
-
-    //image 4
-    for (let i = 0; i < productImages.length; i++) {
-      console.log(productImages[i]);
-      const promise = mediaUpload(productImages[i]);
-      promises.push(promise);
-      // if(i ==5){
-      // 	toast.error("You can only upload 25 images at a time");
-      // 	break;
-      // }
-    }
-
-    console.log(
-      productKey,
-      productName,
-      productPrice,
-      productCategory,
-      productDimensions,
-      productDescription
-    );
     const token = localStorage.getItem("token");
 
-    if (token) {
-      try {
-        // Promise.all(promises)
-        // 	.then((result) => {
-        // 		console.log(result);
-        // 	})
-        // 	.catch((err) => {
-        // 		toast.error(err);
-        // 	});
-
-        const imageUrls = await Promise.all(promises);
-
-        const result = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/api/products`,
-          {
-            key: productKey,
-            name: productName,
-            price: productPrice,
-            category: productCategory,
-            dimensions: productDimensions,
-            description: productDescription,
-            image: imageUrls,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-        );
-        toast.success(result.data.message);
-        navigate("/admin/items");
-      } catch (err) {
-        toast.error(err.response.data.error);
-      }
-    } else {
+    if (!token) {
       toast.error("You are not authorized to add items");
+      return;
+    }
+
+    try {
+      // Upload all selected images using mediaUpload
+      const promises = Array.from(productImages).map((file) => mediaUpload(file));
+      const imageUrls = await Promise.all(promises);
+
+      // Construct product data
+      const productData = {
+        key: productKey,
+        name: productName,
+        price: productPrice,
+        category: productCategory,
+        dimensions: productDimensions,
+        description: productDescription,
+        image: imageUrls,
+      };
+
+      const result = await axios.post(`${BackendUrl}/api/products`, productData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      toast.success(result.data.message || "Item added successfully");
+      navigate("/admin/items");
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Failed to add product");
     }
   }
 
@@ -107,8 +84,8 @@ export default function AddItemPage() {
           onChange={(e) => setProductCategory(e.target.value)}
           className="w-full p-2 border rounded"
         >
-          <option value="Speaker">Audio</option>
-          <option value="lights">Lights</option>
+          <option value="Speakers">Audio</option>
+          <option value="Lights">Lights</option>
         </select>
         <input
           type="text"
@@ -127,9 +104,7 @@ export default function AddItemPage() {
         <input
           type="file"
           multiple
-          onChange={(e) => {
-            setProductImages(e.target.files);
-          }}
+          onChange={(e) => setProductImages(e.target.files)}
           className="w-full p-2 border rounded"
         />
         <button
@@ -139,9 +114,7 @@ export default function AddItemPage() {
           Add
         </button>
         <button
-          onClick={() => {
-            navigate("/admin/items");
-          }}
+          onClick={() => navigate("/admin/items")}
           className="w-full p-2 bg-red-500 text-white rounded hover:bg-red-600"
         >
           Cancel

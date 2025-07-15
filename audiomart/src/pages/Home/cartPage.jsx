@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { loadCart, addToCart, removeFromCart } from "../../utils/cartFunction";
 import axios from "axios";
 
+
+const BackendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
@@ -16,7 +19,7 @@ export default function CartPage() {
 
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3005/api/products/");
+        const response = await axios.get(`${BackendUrl}/api/products/`);
         const allProducts = response.data;
         const filteredProducts = allProducts.filter((product) =>
           cart.some((item) => item.key && item.key === product.key)

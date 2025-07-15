@@ -3,6 +3,9 @@ import axios from "axios";
 import Header from "../../header";
 import Footer from "../../footer";
 
+// ✅ Environment variable
+const BackendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export default function InquiriesPage() {
   const [inquiries, setInquiries] = useState([]);
   const [message, setMessage] = useState("");
@@ -19,7 +22,7 @@ export default function InquiriesPage() {
     const fetchInquiries = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:3005/api/inquiries/", {
+        const response = await axios.get(`${BackendUrl}/api/inquiries/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setInquiries(response.data);
@@ -40,13 +43,13 @@ export default function InquiriesPage() {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://localhost:3005/api/inquiries/",
+        `${BackendUrl}/api/inquiries/`,
         { message, name: user.name, email: user.email },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setMessage("");
 
-      const response = await axios.get("http://localhost:3005/api/inquiries/", {
+      const response = await axios.get(`${BackendUrl}/api/inquiries/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setInquiries(response.data);
