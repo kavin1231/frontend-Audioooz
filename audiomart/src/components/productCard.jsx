@@ -1,7 +1,22 @@
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function ProductCard({ item }) {
   if (!item) return null;
+
+  const handleAddToCart = () => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const existingItem = cart.find((product) => product.key === item.key);
+    if (existingItem) {
+      existingItem.qty += 1;
+    } else {
+      cart.push({ ...item, qty: 1 });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    toast.success("Item added to cart!");
+  };
 
   return (
     <div className="flex flex-col bg-white shadow-md w-72 h-[480px] rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -47,7 +62,11 @@ export default function ProductCard({ item }) {
 
         {/* Actions */}
         <div className="grid grid-cols-2 gap-2 mt-4">
-          <button className="bg-slate-100 text-slate-600 py-2 rounded hover:bg-slate-200 transition">
+          <button
+            className="bg-slate-100 text-slate-600 py-2 rounded hover:bg-slate-200 transition"
+            onClick={handleAddToCart}
+            disabled={!item.availability}
+          >
             Add to cart
           </button>
           <Link
