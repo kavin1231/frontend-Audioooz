@@ -1,4 +1,3 @@
-// src/pages/PrivacyPolicyPage.jsx
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -11,72 +10,84 @@ export default function PrivacyPolicyPage() {
   }, []);
 
   return (
-    <div className="bg-gray-50 min-h-screen text-gray-800">
+    <div className="bg-black text-white min-h-screen">
       <Header />
 
-      <section className="max-w-5xl mx-auto px-6 py-16" data-aos="fade-up">
-        <h1 className="text-4xl font-bold text-indigo-600 mb-6">Privacy Policy</h1>
+      {/* Hero Section */}
+      <section className="bg-yellow-500 text-black py-20 px-6">
+        <div className="max-w-4xl mx-auto text-center" data-aos="fade-down">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Privacy Policy</h1>
+          <p className="text-lg md:text-xl">
+            Learn how we collect, use, and protect your personal information.
+          </p>
+        </div>
+      </section>
 
-        <p className="text-lg leading-relaxed mb-4">
-          At Audiomart, we respect your privacy and are committed to protecting your personal data.
-          This Privacy Policy outlines how we collect, use, and safeguard your information when you
-          use our platform.
-        </p>
-
-        <div className="space-y-8 mt-10">
-          <div data-aos="fade-up" data-aos-delay="100">
-            <h2 className="text-2xl font-semibold mb-2">1. Information We Collect</h2>
-            <p className="text-base leading-relaxed text-gray-700">
-              We may collect personal information such as your name, email address, contact
-              details, and usage data when you register, place orders, or interact with the site.
-            </p>
-          </div>
-
-          <div data-aos="fade-up" data-aos-delay="200">
-            <h2 className="text-2xl font-semibold mb-2">2. How We Use Your Information</h2>
-            <p className="text-base leading-relaxed text-gray-700">
-              We use your information to provide and improve our services, process transactions,
-              send notifications, and ensure a safe and personalized experience on our platform.
-            </p>
-          </div>
-
-          <div data-aos="fade-up" data-aos-delay="300">
-            <h2 className="text-2xl font-semibold mb-2">3. Data Sharing and Security</h2>
-            <p className="text-base leading-relaxed text-gray-700">
-              We do not sell or rent your data to third parties. Your information is securely stored
-              and only accessible to authorized personnel under strict confidentiality agreements.
-            </p>
-          </div>
-
-          <div data-aos="fade-up" data-aos-delay="400">
-            <h2 className="text-2xl font-semibold mb-2">4. Cookies and Tracking</h2>
-            <p className="text-base leading-relaxed text-gray-700">
-              Audiomart uses cookies to enhance user experience and analyze site performance. You
-              can manage your cookie preferences through your browser settings.
-            </p>
-          </div>
-
-          <div data-aos="fade-up" data-aos-delay="500">
-            <h2 className="text-2xl font-semibold mb-2">5. Your Rights</h2>
-            <p className="text-base leading-relaxed text-gray-700">
-              You have the right to access, update, or delete your personal information at any time.
-              Please contact our support team to exercise your data protection rights.
-            </p>
-          </div>
-
-          <div data-aos="fade-up" data-aos-delay="600">
-            <h2 className="text-2xl font-semibold mb-2">6. Updates to This Policy</h2>
-            <p className="text-base leading-relaxed text-gray-700">
-              We may update this Privacy Policy periodically. Any changes will be posted on this
-              page with a revised effective date.
-            </p>
-          </div>
+      {/* Content Section */}
+      <section className="max-w-4xl mx-auto px-6 py-16 space-y-10" data-aos="fade-up">
+        <div>
+          <h2 className="text-2xl font-semibold text-yellow-400 mb-2">1. Information We Collect</h2>
+          <p className="text-white leading-relaxed">
+            We collect information that you provide when registering, placing orders, contacting
+            support, or using our services. This includes your name, email address, contact
+            information, payment details, and browsing activity.
+          </p>
         </div>
 
-        <p className="text-sm text-gray-500 mt-10">
-          Last updated: July 19, 2025
-        </p>
+        <div>
+          <h2 className="text-2xl font-semibold text-yellow-400 mb-2">2. How We Use Your Data</h2>
+          <p className="text-white leading-relaxed">
+            Your data is used to process transactions, provide customer service, improve our
+            platform, and send relevant communications. We do not sell or rent your data to third
+            parties.
+          </p>
+        </div>
+
+        <div>
+          <h2 className="text-2xl font-semibold text-yellow-400 mb-2">3. Data Security</h2>
+          <p className="text-white leading-relaxed">
+            We implement a variety of security measures to maintain the safety of your personal
+            information, including encryption, secure servers, and access controls.
+          </p>
+        </div>
+
+        <div>
+          <h2 className="text-2xl font-semibold text-yellow-400 mb-2">4. Cookies</h2>
+          <p className="text-white leading-relaxed">
+            We use cookies to enhance your experience, analyze site traffic, and personalize
+            content. You can choose to disable cookies via your browser settings.
+          </p>
+        </div>
+
+        <div>
+          <h2 className="text-2xl font-semibold text-yellow-400 mb-2">5. Your Rights</h2>
+          <p className="text-white leading-relaxed">
+            You have the right to access, correct, or delete your personal data. You may also opt
+            out of marketing communications at any time.
+          </p>
+        </div>
+
+        <div>
+          <h2 className="text-2xl font-semibold text-yellow-400 mb-2">6. Changes to This Policy</h2>
+          <p className="text-white leading-relaxed">
+            We may update this privacy policy from time to time. Any changes will be posted on this
+            page with an updated revision date.
+          </p>
+        </div>
       </section>
+
+      {/* Footer CTA */}
+      <section className="bg-yellow-400 text-black py-12 text-center px-6" data-aos="fade-up">
+        <h2 className="text-2xl font-semibold mb-4">Still have questions?</h2>
+        <p className="text-lg mb-4">Reach out to our support team for further assistance.</p>
+        <a
+          href="mailto:support@audiomart.com"
+          className="inline-block bg-black text-yellow-400 font-semibold px-6 py-3 rounded-lg hover:bg-gray-800 transition duration-300"
+        >
+          Contact Support
+        </a>
+      </section>
+
       <Footer />
     </div>
   );
