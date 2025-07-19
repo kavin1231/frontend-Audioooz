@@ -1,3 +1,4 @@
+// src/pages/HomePage.jsx
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../header";
@@ -20,8 +21,7 @@ export default function HomePage() {
     },
     {
       title: "Design Your Digital Future",
-      image:
-        "https://rentprinceav.com/assets/images/product_imgs/1683274055.jpg",
+      image: "https://rentprinceav.com/assets/images/product_imgs/1683274055.jpg",
     },
     {
       title: "Build with Passion, Ship with Pride",
@@ -30,8 +30,7 @@ export default function HomePage() {
     },
     {
       title: "Think Big, Code Smart",
-      image:
-        "https://www.rentacomputer.com/images/products/usbmicrophone1.png",
+      image: "https://www.rentacomputer.com/images/products/usbmicrophone1.png",
     },
     {
       title: "Stage Setup Solutions",
@@ -41,7 +40,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="bg-white text-gray-900">
+    <div className="bg-gray-50 text-gray-900">
       <Header />
 
       {/* Hero Section */}
@@ -52,7 +51,7 @@ export default function HomePage() {
         }}
         data-aos="fade-in"
       >
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center text-white px-4">
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-opacity-90 flex flex-col justify-center items-center text-center text-white px-4">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">
             Welcome to AudioMart
           </h1>
@@ -61,7 +60,7 @@ export default function HomePage() {
           </p>
           <Link
             to="/product"
-            className="bg-yellow-400 text-black font-semibold px-6 py-3 rounded-full hover:bg-yellow-500 transition"
+            className="bg-white text-indigo-600 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition"
           >
             Browse Products
           </Link>
@@ -85,7 +84,7 @@ export default function HomePage() {
           onMouseEnter={() => setStopScroll(true)}
           onMouseLeave={() => setStopScroll(false)}
         >
-          <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-r from-white to-transparent" />
+          <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-r from-gray-50 to-transparent" />
           <div
             className="marquee-inner flex w-fit"
             style={{
@@ -113,50 +112,55 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <div className="absolute right-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-l from-white to-transparent" />
+          <div className="absolute right-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-l from-gray-50 to-transparent" />
         </div>
       </main>
 
       {/* Features Section */}
-      <section className="bg-gray-100 py-16" data-aos="fade-up">
+      <section className="bg-white py-16" data-aos="fade-up">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8 text-center">
           <div>
-            <h3 className="text-xl font-semibold mb-2">Flexible Rentals</h3>
+            <h3 className="text-xl font-semibold mb-2 text-indigo-600">Flexible Rentals</h3>
             <p>Rent by day, week, or month – your choice, your control.</p>
           </div>
           <div>
-            <h3 className="text-xl font-semibold mb-2">Top Quality Gear</h3>
+            <h3 className="text-xl font-semibold mb-2 text-indigo-600">Top Quality Gear</h3>
             <p>Get access to premium audio, lighting & event equipment.</p>
           </div>
           <div>
-            <h3 className="text-xl font-semibold mb-2">Easy Returns</h3>
+            <h3 className="text-xl font-semibold mb-2 text-indigo-600">Easy Returns</h3>
             <p>Simple return process and support for peace of mind.</p>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 bg-white" data-aos="zoom-in">
+      <section className="py-16 bg-gray-100" data-aos="zoom-in">
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-8">What Our Clients Say</h2>
+          <h2 className="text-3xl font-bold text-indigo-600 mb-8">What Our Clients Say</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {["Amazing service!", "The gear was top-notch.", "Will rent again soon!"].map((quote, idx) => (
-              <div key={idx} className="p-6 shadow-md rounded-lg bg-gray-50">
-                <p className="italic text-gray-700 mb-4">"{quote}"</p>
-                <p className="font-semibold">Customer {idx + 1}</p>
-              </div>
-            ))}
+            {["Amazing service!", "The gear was top-notch.", "Will rent again soon!"].map(
+              (quote, idx) => (
+                <div key={idx} className="p-6 shadow-md rounded-lg bg-white">
+                  <p className="italic text-gray-700 mb-4">"{quote}"</p>
+                  <p className="font-semibold">Customer {idx + 1}</p>
+                </div>
+              )
+            )}
           </div>
         </div>
       </section>
 
       {/* CTA Banner */}
-      <section className="bg-yellow-400 py-12 text-center text-black" data-aos="flip-up">
+      <section
+        className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 py-12 text-center text-white"
+        data-aos="flip-up"
+      >
         <h2 className="text-2xl font-bold mb-4">Ready to Get Started?</h2>
         <p className="mb-6">Browse our rental catalog or contact us for custom packages.</p>
         <Link
           to="/product"
-          className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition"
+          className="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
         >
           Explore Rentals
         </Link>

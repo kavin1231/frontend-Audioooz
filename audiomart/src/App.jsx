@@ -19,6 +19,7 @@ import InquiriesPage from "./pages/Home/inquiriesPage.jsx";
 import EditProfilePage from "./pages/Home/editprofilePage.jsx";
 import ProfilePage from "./pages/Home/profilePage.jsx";
 import RegisterPage from "./pages/Login&Registration/registerPage.jsx";
+import PrivacyPolicyPage from "./pages/Home/privacyPolicyPage.jsx";
 
 function App() {
   return (
@@ -42,6 +43,8 @@ function App() {
         <Route path="/contact" element={<InquiriesPage />} />
         <Route path="/profile/edit" element={<EditProfilePage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
