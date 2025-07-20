@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+
 
 // ✅ Get backend URL from environment
 const BackendUrl = import.meta.env.VITE_BACKEND_URL;
