@@ -131,7 +131,7 @@ export default function ProfilePage() {
       <div className="relative">
         <div className="w-32 h-32 rounded-full border-4 border-white shadow-lg bg-gray-200 flex items-center justify-center overflow-hidden">
           {imageError ? (
-            <div className="w-full h-full bg-green-600 flex items-center justify-center text-white text-2xl font-bold">
+            <div className="w-full h-full bg-black flex items-center justify-center text-white text-2xl font-bold">
               {(user?.firstName?.[0] || "U").toUpperCase()}
               {(user?.lastName?.[0] || "").toUpperCase()}
             </div>
