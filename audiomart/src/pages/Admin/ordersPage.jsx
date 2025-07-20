@@ -7,7 +7,7 @@ export default function OrdersPage() {
   const [error, setError] = useState(null);
 
   const token = localStorage.getItem("token");
-  const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
+  const BackendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -17,7 +17,7 @@ export default function OrdersPage() {
       }
 
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/orders/`, {
+        const response = await axios.get(`${BackendUrl}/api/orders/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -31,12 +31,12 @@ export default function OrdersPage() {
     };
 
     fetchOrders();
-  }, [token, API_BASE_URL]);
+  }, [token]);
 
   const updateOrderStatus = async (orderId, status) => {
     try {
       const response = await axios.put(
-        `${API_BASE_URL}/api/orders/${orderId}`,
+        `${BackendUrl}/api/orders/${orderId}`,
         { status },
         {
           headers: {
@@ -46,11 +46,12 @@ export default function OrdersPage() {
       );
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
-          order._id === response.data.order._id ? response.data.order : order
+          order.orderId === orderId ? response.data.order : order
         )
       );
-    } catch {
+    } catch (err) {
       alert("Failed to update order status");
+      console.error("Update failed:", err);
     }
   };
 
@@ -68,10 +69,8 @@ export default function OrdersPage() {
     0
   );
 
-  if (loading)
-    return <div className="text-center mt-10">Loading orders...</div>;
-  if (error)
-    return <div className="text-red-600 text-center mt-10">{error}</div>;
+  if (loading) return <div className="text-center mt-10">Loading orders...</div>;
+  if (error) return <div className="text-red-600 text-center mt-10">{error}</div>;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
@@ -116,7 +115,7 @@ export default function OrdersPage() {
                 <ul className="space-y-3">
                   {order.orderedItems.map((item, index) => (
                     <li
-                      key={index}
+                      key={`${item.name}-${index}`}  // Unique key here!
                       className="flex items-center gap-4 border p-2 rounded-md"
                     >
                       <img
@@ -146,13 +145,13 @@ export default function OrdersPage() {
                 <div className="mt-6 flex gap-4">
                   <button
                     className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                    onClick={() => updateOrderStatus(order._id, "Accepted")}
+                    onClick={() => updateOrderStatus(order.orderId, "Accepted")}
                   >
                     Accept
                   </button>
                   <button
                     className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                    onClick={() => updateOrderStatus(order._id, "Declined")}
+                    onClick={() => updateOrderStatus(order.orderId, "Declined")}
                   >
                     Decline
                   </button>
