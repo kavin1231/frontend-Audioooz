@@ -4,8 +4,6 @@ import { jwtDecode } from "jwt-decode";
 import Header from "../../header";
 import Footer from "../../footer";
 
-
-// ✅ Get backend URL from environment
 const BackendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default function PurchasePage() {
@@ -15,13 +13,11 @@ export default function PurchasePage() {
   const [paymentMethod, setPaymentMethod] = useState("visa");
   const [orderStatus, setOrderStatus] = useState(null);
 
-  // Personal info
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  // Address info
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
@@ -72,7 +68,6 @@ export default function PurchasePage() {
     }
   }, [orderStatus]);
 
-  // Memoized subtotal calculation to update when cartItems or products change
   const subtotal = useMemo(() => {
     return cartItems.reduce((sum, item) => {
       const product = products.find((p) => p.key === item.key);
@@ -150,87 +145,86 @@ export default function PurchasePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 md:p-10">
-      <Header/>
-      <div className="max-w-7xl mx-auto">
-        
-        <h1 className="text-3xl font-bold mb-8 text-center">Secure Checkout</h1>
+    <div className="flex flex-col min-h-screen bg-gray-50">
+      {/* ✅ Full-width Header */}
+      <div className="w-full">
+        <Header />
+      </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* Left Column */}
-          <div className="md:col-span-2 space-y-6">
-            {/* Personal Info */}
-            <div className="bg-gray-100 p-6 rounded-xl shadow-sm">
-              <h2 className="font-semibold text-lg mb-4">
-                Personal Information
-              </h2>
-              <div className="grid md:grid-cols-2 gap-4">
+      {/* Main Content */}
+      <main className="flex-1 p-6 md:p-10">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-3xl font-bold mb-8 text-center">Secure Checkout</h1>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Left Column */}
+            <div className="md:col-span-2 space-y-6">
+              {/* Personal Info */}
+              <div className="bg-gray-100 p-6 rounded-xl shadow-sm">
+                <h2 className="font-semibold text-lg mb-4">Personal Information</h2>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    placeholder="First Name"
+                    className="input-style"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                  <input
+                    placeholder="Last Name"
+                    className="input-style"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                </div>
+                <div className="grid md:grid-cols-2 gap-4 mt-4">
+                  <input
+                    placeholder="Email"
+                    className="input-style"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <input
+                    placeholder="Phone"
+                    className="input-style"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* Delivery Info */}
+              <div className="bg-gray-100 p-6 rounded-xl shadow-sm">
+                <h2 className="font-semibold text-lg mb-4">Delivery Information</h2>
                 <input
-                  placeholder="First Name"
-                  className="input-style"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="Address"
+                  className="input-style mb-4 w-full"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
                 />
-                <input
-                  placeholder="Last Name"
-                  className="input-style"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    placeholder="City"
+                    className="input-style"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                  />
+                  <input
+                    placeholder="Postal Code"
+                    className="input-style"
+                    value={postalCode}
+                    onChange={(e) => setPostalCode(e.target.value)}
+                  />
+                </div>
+                <textarea
+                  placeholder="Delivery Instructions (Optional)"
+                  className="input-style mt-4 w-full"
+                  rows={3}
                 />
               </div>
-              <div className="grid md:grid-cols-2 gap-4 mt-4">
-                <input
-                  placeholder="Email"
-                  className="input-style"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                  placeholder="Phone"
-                  className="input-style"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-              </div>
-            </div>
 
-            {/* Delivery Info */}
-            <div className="bg-gray-100 p-6 rounded-xl shadow-sm">
-              <h2 className="font-semibold text-lg mb-4">
-                Delivery Information
-              </h2>
-              <input
-                placeholder="Address"
-                className="input-style mb-4 w-full"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-              <div className="grid md:grid-cols-2 gap-4">
-                <input
-                  placeholder="City"
-                  className="input-style"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                />
-                <input
-                  placeholder="Postal Code"
-                  className="input-style"
-                  value={postalCode}
-                  onChange={(e) => setPostalCode(e.target.value)}
-                />
-              </div>
-              <textarea
-                placeholder="Delivery Instructions (Optional)"
-                className="input-style mt-4 w-full"
-                rows={3}
-              />
-            </div>
-
-            {/* Payment Method */}
-            <div className="bg-gray-100 p-6 rounded-xl shadow-sm">
-              <h2 className="font-semibold text-lg mb-4">Payment Method</h2>
-
-              <div className="space-y-4">
+              {/* Payment */}
+              <div className="bg-gray-100 p-6 rounded-xl shadow-sm">
+                <h2 className="font-semibold text-lg mb-4">Payment Method</h2>
                 <label className="flex items-center space-x-3">
                   <input
                     type="radio"
@@ -241,78 +235,72 @@ export default function PurchasePage() {
                   />
                   <span>Cash on Delivery</span>
                 </label>
-              </div>
 
-              {paymentMethod === "cod" ? (
                 <button
                   onClick={handleConfirmCOD}
                   className="mt-6 bg-green-500 text-white w-full py-3 rounded-md hover:bg-green-600"
                 >
                   Confirm Cash on Delivery
                 </button>
-              ) : (
-                <button className="mt-6 bg-green-500 text-white w-full py-3 rounded-md hover:bg-green-600">
-                  Proceed to Pay with Visa
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Right Column (Order Summary) */}
-          <div className="bg-gray-100 p-6 rounded-xl shadow-sm">
-            <h2 className="font-semibold text-lg mb-4">Order Summary</h2>
-
-            <div className="space-y-4">
-              {cartItems.map((item) => {
-                const product = products.find((p) => p.key === item.key);
-                if (!product) return null;
-                return (
-                  <div
-                    key={item.key}
-                    className="flex justify-between items-center"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <img
-                        src={product.image[0]}
-                        className="w-12 h-12 rounded"
-                        alt={product.name}
-                      />
-                      <div>
-                        <p className="text-sm font-semibold">{product.name}</p>
-                        <p className="text-xs text-gray-500">
-                          Quantity: {item.qty}
-                        </p>
-                      </div>
-                    </div>
-                    <span>LKR {(product.price * item.qty).toFixed(2)}</span>
-                  </div>
-                );
-              })}
-
-              <hr />
-
-              <div className="text-sm space-y-2">
-                <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span>LKR {subtotal.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Delivery Fee (3%)</span>
-                  <span>LKR {transactionFee.toFixed(2)}</span>
-                </div>
               </div>
+            </div>
 
-              <hr />
+            {/* Right Column: Order Summary */}
+            <div className="bg-gray-100 p-6 rounded-xl shadow-sm">
+              <h2 className="font-semibold text-lg mb-4">Order Summary</h2>
+              <div className="space-y-4">
+                {cartItems.map((item) => {
+                  const product = products.find((p) => p.key === item.key);
+                  if (!product) return null;
+                  return (
+                    <div key={item.key} className="flex justify-between items-center">
+                      <div className="flex items-center space-x-3">
+                        <img
+                          src={product.image[0]}
+                          className="w-12 h-12 rounded"
+                          alt={product.name}
+                        />
+                        <div>
+                          <p className="text-sm font-semibold">{product.name}</p>
+                          <p className="text-xs text-gray-500">
+                            Quantity: {item.qty}
+                          </p>
+                        </div>
+                      </div>
+                      <span>LKR {(product.price * item.qty).toFixed(2)}</span>
+                    </div>
+                  );
+                })}
 
-              <div className="flex justify-between font-bold text-lg">
-                <span>Total</span>
-                <span>LKR {total.toFixed(2)}</span>
+                <hr />
+
+                <div className="text-sm space-y-2">
+                  <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>LKR {subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Delivery Fee (3%)</span>
+                    <span>LKR {transactionFee.toFixed(2)}</span>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div className="flex justify-between font-bold text-lg">
+                  <span>Total</span>
+                  <span>LKR {total.toFixed(2)}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </main>
+
+      {/* ✅ Full-width Footer */}
+      <div className="w-full">
+        <Footer />
       </div>
-      <Footer />
     </div>
   );
 }
