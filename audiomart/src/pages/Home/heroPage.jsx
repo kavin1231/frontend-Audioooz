@@ -11,7 +11,7 @@ export default function HeroPage() {
   }, []);
 
   return (
-    <div className="relative h-screen w-full bg-black text-white font-[Poppins] overflow-hidden">
+    <div className="relative h-screen w-full bg-black text-yellow-400 font-[Poppins] overflow-hidden">
       <BasicNavbar />
 
       {/* Background layer */}
@@ -20,6 +20,7 @@ export default function HeroPage() {
         style={{
           backgroundImage:
             "url('https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/hero/bg-gradient-3.svg')",
+          filter: "brightness(0.15) saturate(1.5)", // darken and enrich gold contrast
         }}
       />
 
@@ -28,6 +29,7 @@ export default function HeroPage() {
         <FadeInImage
           alt="Gradient background"
           src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/backgrounds/bg-gradient.png"
+          style={{ filter: "brightness(0.7) sepia(1) hue-rotate(20deg)" }} // subtle warm gold tint
         />
       </div>
 
@@ -35,11 +37,11 @@ export default function HeroPage() {
       <main className="relative z-20 flex flex-col items-center justify-center h-full px-8 text-center max-w-3xl mx-auto">
         {/* Info pill */}
         <div
-          className="flex items-center gap-2 border border-white/15 rounded-full px-4 py-2 text-sm mt-24"
+          className="flex items-center gap-2 border border-yellow-600 rounded-full px-4 py-2 text-sm mt-24 text-white"
           data-aos="fade-down"
         >
           <p>Explore how Audiomart empowers event sound.</p>
-          <a href="#" className="flex items-center gap-1 font-medium">
+          <a href="#" className="flex items-center gap-1 font-semibold text-yellow-400 hover:text-yellow-500 transition">
             Read more
             <svg
               className="mt-0.5"
@@ -62,7 +64,7 @@ export default function HeroPage() {
 
         {/* Heading */}
         <h1
-          className="text-4xl md:text-6xl font-semibold mt-5 bg-gradient-to-r from-white to-[#748298] text-transparent bg-clip-text"
+          className="text-4xl md:text-6xl font-semibold mt-5 bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-600 text-transparent bg-clip-text"
           data-aos="fade-up"
         >
           Rent Premium Audio Gear with Ease
@@ -70,7 +72,7 @@ export default function HeroPage() {
 
         {/* Subtext */}
         <p
-          className="text-slate-300 md:text-base line-clamp-3 max-md:px-2 mt-4"
+          className="text-white md:text-base line-clamp-3 max-md:px-2 mt-4"
           data-aos="fade-up"
           data-aos-delay="200"
         >
@@ -87,13 +89,13 @@ export default function HeroPage() {
         >
           <Link
             to="/login"
-            className="block px-8 py-3 bg-yellow-400 text-black hover:bg-yellow-500 transition rounded-full text-center font-medium"
+            className="block px-8 py-3 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black hover:from-yellow-500 hover:to-yellow-700 transition rounded-full text-center font-semibold shadow-lg shadow-yellow-600/40"
           >
             Get Started
           </Link>
           <Link
             to="/learn-more"
-            className="flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-6 py-3 justify-center text-white hover:bg-white/20 transition"
+            className="flex items-center gap-2 border border-yellow-600 rounded-full px-6 py-3 justify-center text-yellow-400 hover:bg-yellow-600 hover:text-black transition"
           >
             <span>Learn More</span>
             <svg
@@ -107,7 +109,7 @@ export default function HeroPage() {
               <path
                 d="M1.25.5 4.75 4l-3.5 3.5"
                 stroke="currentColor"
-                strokeOpacity=".4"
+                strokeOpacity=".8"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
