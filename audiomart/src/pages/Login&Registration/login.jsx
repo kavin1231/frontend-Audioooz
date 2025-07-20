@@ -9,6 +9,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+  const [rememberTouched, setRememberTouched] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,6 +18,12 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!rememberTouched) {
+      toast.error("Please confirm your 'Remember Me' preference.");
+      return;
+    }
+
     const BackendUrl = import.meta.env.VITE_BACKEND_URL;
 
     axios
@@ -43,7 +50,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen w-full bg-black text-white relative overflow-hidden">
-      {/* Audio Equipment Background */}
+      {/* Background Layers */}
       <div className="absolute inset-0 w-full h-full z-0">
         <div
           className="w-full h-full bg-cover bg-center bg-no-repeat"
@@ -51,19 +58,15 @@ export default function LoginPage() {
             backgroundImage: `url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop')`,
           }}
         ></div>
-
         <div
-          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-30"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=2070&auto=format&fit=crop')`,
-          }}
+          className="absolute inset-0 bg-black bg-opacity-70 z-10"
         ></div>
-
-        <div className="absolute inset-0 bg-black bg-opacity-70 z-10"></div>
-        <div className="absolute inset-0 bg-black bg-opacity-8 z-20"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-yellow-900/20 z-25"></div>
-
-        {/* Enlarged Image */}
+        <div
+          className="absolute inset-0 bg-black bg-opacity-8 z-20"
+        ></div>
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-yellow-900/20 z-25"
+        ></div>
         <img
           src="/gbg.png"
           alt="Person"
@@ -83,52 +86,28 @@ export default function LoginPage() {
           }}
           data-aos="fade-up"
         >
-          <h2
-            className="text-4xl text-white font-medium drop-shadow-lg"
-            data-aos="zoom-in"
-          >
+          <h2 className="text-4xl text-white font-medium drop-shadow-lg" data-aos="zoom-in">
             Sign in
           </h2>
-          <p
-            className="text-sm text-gray-300 mt-3 drop-shadow-md"
-            data-aos="fade-up"
-            data-aos-delay="100"
-          >
+          <p className="text-sm text-gray-300 mt-3 drop-shadow-md" data-aos="fade-up" data-aos-delay="100">
             Welcome back! Please sign in to continue
           </p>
 
           {/* Divider */}
-          <div
-            className="flex items-center gap-4 w-full my-5"
-            data-aos="fade-up"
-            data-aos-delay="300"
-          >
+          <div className="flex items-center gap-4 w-full my-5" data-aos="fade-up" data-aos-delay="300">
             <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent"></div>
-            <p className="text-nowrap text-sm text-gray-300">
-              or sign in with email
-            </p>
+            <p className="text-nowrap text-sm text-gray-300">or sign in with email</p>
             <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent"></div>
           </div>
 
-          {/* Email Field */}
+          {/* Email Input */}
           <div
-            className="flex items-center w-full bg-black bg-opacity-40 backdrop-blur-sm border border-gray-600 border-opacity-50 h-12 rounded-full overflow-hidden pl-6 gap-2 hover:border-yellow-400 hover:border-opacity-50 transition-all duration-300 focus-within:border-yellow-400 focus-within:border-opacity-70 focus-within:shadow-lg focus-within:shadow-yellow-400/20"
+            className="flex items-center w-full bg-black bg-opacity-40 backdrop-blur-sm border border-gray-600 border-opacity-50 h-12 rounded-full overflow-hidden pl-6 gap-2 hover:border-yellow-400 transition-all duration-300 focus-within:border-yellow-400 focus-within:shadow-yellow-400/20"
             data-aos="fade-up"
             data-aos-delay="400"
           >
-            <svg
-              width="16"
-              height="11"
-              viewBox="0 0 16 11"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M0 .55.571 0H15.43l.57.55v9.9l-.571.55H.57L0 10.45zm1.143 1.138V9.9h13.714V1.69l-6.503 4.8h-.697zM13.749 1.1H2.25L8 5.356z"
-                fill="#D1D5DB"
-              />
+            <svg width="16" height="11" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" clipRule="evenodd" d="M0 .55.571 0H15.43l.57.55v9.9l-.571.55H.57L0 10.45zm1.143 1.138V9.9h13.714V1.69l-6.503 4.8h-.697zM13.749 1.1H2.25L8 5.356z" fill="#D1D5DB" />
             </svg>
             <input
               type="email"
@@ -140,23 +119,14 @@ export default function LoginPage() {
             />
           </div>
 
-          {/* Password Field */}
+          {/* Password Input */}
           <div
-            className="flex items-center mt-6 w-full bg-black bg-opacity-40 backdrop-blur-sm border border-gray-600 border-opacity-50 h-12 rounded-full overflow-hidden pl-6 gap-2 hover:border-yellow-400 hover:border-opacity-50 transition-all duration-300 focus-within:border-yellow-400 focus-within:border-opacity-70 focus-within:shadow-lg focus-within:shadow-yellow-400/20"
+            className="flex items-center mt-6 w-full bg-black bg-opacity-40 backdrop-blur-sm border border-gray-600 border-opacity-50 h-12 rounded-full overflow-hidden pl-6 gap-2 hover:border-yellow-400 transition-all duration-300 focus-within:border-yellow-400 focus-within:shadow-yellow-400/20"
             data-aos="fade-up"
             data-aos-delay="500"
           >
-            <svg
-              width="13"
-              height="17"
-              viewBox="0 0 13 17"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M13 8.5c0-.938-.729-1.7-1.625-1.7h-.812V4.25C10.563 1.907 8.74 0 6.5 0S2.438 1.907 2.438 4.25V6.8h-.813C.729 6.8 0 7.562 0 8.5v6.8c0 .938.729 1.7 1.625 1.7h9.75c.896 0 1.625-.762 1.625-1.7zM4.063 4.25c0-1.406 1.093-2.55 2.437-2.55s2.438 1.144 2.438 2.55V6.8H4.061z"
-                fill="#D1D5DB"
-              />
+            <svg width="13" height="17" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13 8.5c0-.938-.729-1.7-1.625-1.7h-.812V4.25C10.563 1.907 8.74 0 6.5 0S2.438 1.907 2.438 4.25V6.8h-.813C.729 6.8 0 7.562 0 8.5v6.8c0 .938.729 1.7 1.625 1.7h9.75c.896 0 1.625-.762 1.625-1.7zM4.063 4.25c0-1.406 1.093-2.55 2.437-2.55s2.438 1.144 2.438 2.55V6.8H4.061z" fill="#D1D5DB" />
             </svg>
             <input
               type="password"
@@ -168,28 +138,29 @@ export default function LoginPage() {
             />
           </div>
 
-          {/* Remember Me & Forgot Password */}
-          <div
-            className="w-full flex items-center justify-between mt-8 text-gray-300"
-            data-aos="fade-up"
-            data-aos-delay="600"
-          >
-            <div className="flex items-center gap-2">
-              <input
-                className="h-5 accent-yellow-400 bg-transparent border-gray-600"
-                type="checkbox"
-                id="checkbox"
-                checked={remember}
-                onChange={(e) => setRemember(e.target.checked)}
-              />
-              <label className="text-sm" htmlFor="checkbox">
-                Remember me
-              </label>
+          {/* Remember Me and Forgot Password */}
+          <div className="w-full flex items-center justify-between mt-8 text-gray-300" data-aos="fade-up" data-aos-delay="600">
+            <div className="flex flex-col">
+              <div className="flex items-center gap-2">
+                <input
+                  className="h-5 accent-yellow-400 bg-transparent border-gray-600"
+                  type="checkbox"
+                  id="checkbox"
+                  checked={remember}
+                  onChange={(e) => {
+                    setRemember(e.target.checked);
+                    setRememberTouched(true);
+                  }}
+                />
+                <label className="text-sm" htmlFor="checkbox">
+                  Remember me
+                </label>
+              </div>
+              {!rememberTouched && (
+                <p className="text-xs text-red-400 mt-1 ml-1">Please confirm your preference</p>
+              )}
             </div>
-            <a
-              className="text-sm underline hover:text-yellow-400 transition-colors duration-300"
-              href="#"
-            >
+            <a className="text-sm underline hover:text-yellow-400 transition-colors duration-300" href="#">
               Forgot password?
             </a>
           </div>
@@ -205,23 +176,16 @@ export default function LoginPage() {
           </button>
 
           {/* Signup Link */}
-          <p
-            className="text-gray-300 text-sm mt-4"
-            data-aos="fade-up"
-            data-aos-delay="800"
-          >
+          <p className="text-gray-300 text-sm mt-4" data-aos="fade-up" data-aos-delay="800">
             Don't have an account?{" "}
-            <a
-              className="text-yellow-400 hover:text-yellow-300 hover:underline transition-colors duration-300"
-              href="/register"
-            >
+            <a className="text-yellow-400 hover:text-yellow-300 hover:underline transition-colors duration-300" href="/register">
               Sign up
             </a>
           </p>
         </form>
       </div>
 
-      {/* Subtle Audio Wave Animation */}
+      {/* Animated Sound Bars */}
       <div className="absolute bottom-0 left-0 w-full h-16 z-20 opacity-20">
         <div className="flex items-end justify-center h-full space-x-1">
           {[...Array(50)].map((_, i) => (
