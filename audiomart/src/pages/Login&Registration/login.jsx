@@ -45,43 +45,48 @@ export default function LoginPage() {
     <div className="flex min-h-screen w-full bg-black text-white relative overflow-hidden">
       {/* Audio Equipment Background */}
       <div className="absolute inset-0 w-full h-full z-0">
-        {/* Primary Background Image */}
-        <div 
+        <div
           className="w-full h-full bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop')`,
           }}
         ></div>
-        
-        {/* Secondary Overlay Image for depth */}
-        <div 
+
+        <div
           className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-30"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=2070&auto=format&fit=crop')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=2070&auto=format&fit=crop')`,
           }}
         ></div>
-        
-        {/* Dark Overlay */}
+
         <div className="absolute inset-0 bg-black bg-opacity-70 z-10"></div>
-        
-        {/* Yellow Tint Overlay */}
-        <div className="absolute inset-0 bg-yellow-400 bg-opacity-8 z-20"></div>
-        
-        {/* Subtle gradient overlay for better form contrast */}
+        <div className="absolute inset-0 bg-black bg-opacity-8 z-20"></div>
         <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-yellow-900/20 z-25"></div>
+
+        {/* Enlarged Image */}
+        <img
+          src="/gbg.png"
+          alt="Person"
+          className="absolute z-25 bottom-0 left-1/2 transform -translate-x-1/2 max-h-[130vh] opacity-90 pointer-events-none"
+          data-aos="fade-up"
+        />
       </div>
 
-      {/* Login Form - Centered */}
+      {/* Login Form */}
       <div className="w-full flex items-center justify-center px-4 relative z-30">
         <form
           onSubmit={handleSubmit}
           className="md:w-96 w-full max-w-sm flex flex-col items-center bg-black bg-opacity-30 backdrop-blur-xl border border-yellow-400 border-opacity-30 p-8 rounded-2xl shadow-2xl shadow-yellow-400/20"
           style={{
-            boxShadow: '0 0 40px rgba(251, 191, 36, 0.15), 0 0 80px rgba(251, 191, 36, 0.1), inset 0 0 0 1px rgba(251, 191, 36, 0.1)'
+            boxShadow:
+              "0 0 40px rgba(251, 191, 36, 0.15), 0 0 80px rgba(251, 191, 36, 0.1), inset 0 0 0 1px rgba(251, 191, 36, 0.1)",
           }}
           data-aos="fade-up"
         >
-          <h2 className="text-4xl text-white font-medium drop-shadow-lg" data-aos="zoom-in">
+          <h2
+            className="text-4xl text-white font-medium drop-shadow-lg"
+            data-aos="zoom-in"
+          >
             Sign in
           </h2>
           <p
@@ -181,7 +186,10 @@ export default function LoginPage() {
                 Remember me
               </label>
             </div>
-            <a className="text-sm underline hover:text-yellow-400 transition-colors duration-300" href="#">
+            <a
+              className="text-sm underline hover:text-yellow-400 transition-colors duration-300"
+              href="#"
+            >
               Forgot password?
             </a>
           </div>
@@ -203,7 +211,10 @@ export default function LoginPage() {
             data-aos-delay="800"
           >
             Don't have an account?{" "}
-            <a className="text-yellow-400 hover:text-yellow-300 hover:underline transition-colors duration-300" href="/register">
+            <a
+              className="text-yellow-400 hover:text-yellow-300 hover:underline transition-colors duration-300"
+              href="/register"
+            >
               Sign up
             </a>
           </p>
@@ -220,7 +231,7 @@ export default function LoginPage() {
               style={{
                 height: `${Math.random() * 100}%`,
                 animationDelay: `${i * 0.1}s`,
-                animationDuration: `${1 + Math.random() * 2}s`
+                animationDuration: `${1 + Math.random() * 2}s`,
               }}
             ></div>
           ))}

@@ -65,21 +65,20 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex h-full w-full bg-black text-white">
-      {/* Left Side Image */}
-      <div className="w-full hidden md:inline-block" data-aos="fade-right">
-        <img
-          className="h-full object-cover"
-          src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/leftSideImage.png"
-          alt="leftSideImage"
-        />
-      </div>
+    <div className="flex h-full w-full bg-black text-white relative overflow-hidden">
+      {/* Background Image */}
+      <img
+        src="/gbg.png"
+        alt="Person"
+        className="absolute z-25 bottom-0 left-1/2 transform -translate-x-1/2 h-[130vh] max-h-[130vh] object-contain opacity-90 pointer-events-none"
+        data-aos="fade-up"
+      />
 
-      {/* Right Side Registration Form */}
-      <div className="w-full flex flex-col items-center justify-center">
+      {/* Registration Form */}
+      <div className="w-full flex flex-col items-center justify-center relative z-30 min-h-screen px-4">
         <form
           onSubmit={handleOnSubmit}
-          className="md:w-[450px] w-80 flex flex-col items-center justify-center"
+          className="md:w-80 w-full h-200 max-w-xs flex flex-col items-center bg-black bg-opacity-30 backdrop-blur-xl border border-yellow-400 border-opacity-30 p-6 rounded-2xl shadow-2xl shadow-yellow-400/20"
           data-aos="fade-up"
         >
           <h2 className="text-4xl text-white font-medium" data-aos="zoom-in">

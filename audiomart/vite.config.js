@@ -14,6 +14,15 @@ export default defineConfig({
         "hero-section-title":
           "linear-gradient(91deg, #FFF 32.88%, rgba(255, 255, 255, 0.40) 99.12%)",
       },
+      animation: {
+        float: "float 3s ease-in-out infinite",
+      },
+      keyframes: {
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+      },
     },
   },
   plugins: [react(), tailwindcss()],
