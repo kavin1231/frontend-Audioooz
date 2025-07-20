@@ -217,7 +217,7 @@ export default function ProfilePage() {
           )}
 
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-yellow-400 h-32" />
+            <div className="bg-black h-32" />
             <div className="relative px-6 pb-6">
               <div className="absolute -top-16 left-6">
                 {renderProfileImage()}
