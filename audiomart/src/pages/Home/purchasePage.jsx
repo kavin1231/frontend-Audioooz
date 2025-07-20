@@ -298,11 +298,7 @@ export default function PurchasePage() {
                   <span>LKR {subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Delivery</span>
-                  <span>LKR {deliveryFee.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Transaction Fee (3%)</span>
+                  <span>Delivery Fee (3%)</span>
                   <span>LKR {transactionFee.toFixed(2)}</span>
                 </div>
               </div>
