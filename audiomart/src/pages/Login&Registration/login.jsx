@@ -185,11 +185,6 @@ export default function LoginPage() {
                   Remember me
                 </label>
               </div>
-              {!rememberTouched && (
-                <p className="text-xs text-red-400 mt-1 ml-1">
-                  Please confirm your preference
-                </p>
-              )}
             </div>
             <a
               className="text-sm underline hover:text-yellow-400 transition-colors duration-300"
