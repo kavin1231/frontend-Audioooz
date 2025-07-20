@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 // ✅ Get backend URL from environment
 const BackendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -53,6 +53,7 @@ export default function PurchasePage() {
         setLoading(false);
       } catch (err) {
         setLoading(false);
+        console.error("Failed to fetch products", err);
       }
     };
 
@@ -68,16 +69,18 @@ export default function PurchasePage() {
     }
   }, [orderStatus]);
 
-  const calculateSubtotal = () =>
-    cartItems.reduce((sum, item) => {
+  // Memoized subtotal calculation to update when cartItems or products change
+  const subtotal = useMemo(() => {
+    return cartItems.reduce((sum, item) => {
       const product = products.find((p) => p.key === item.key);
       if (!product) return sum;
       return sum + product.price * item.qty;
     }, 0);
+  }, [cartItems, products]);
 
   const deliveryFee = 0;
-  const transactionFee = calculateSubtotal() * 0.03;
-  const total = calculateSubtotal() + deliveryFee + transactionFee;
+  const transactionFee = subtotal * 0.03;
+  const total = subtotal + deliveryFee + transactionFee;
 
   const handleConfirmCOD = async () => {
     const token = localStorage.getItem("token");
@@ -292,7 +295,7 @@ export default function PurchasePage() {
               <div className="text-sm space-y-2">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span>LKR {calculateSubtotal().toFixed(2)}</span>
+                  <span>LKR {subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Delivery</span>
