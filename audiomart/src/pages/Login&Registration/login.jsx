@@ -67,20 +67,7 @@ export default function LoginPage() {
           </p>
 
           {/* Google Sign-in Button */}
-          <button
-            type="button"
-            onClick={() =>
-              (window.location.href = `${import.meta.env.VITE_BACKEND_URL}/api/users/google`)
-            }
-            className="w-full mt-8 bg-gray-800 border border-gray-600 flex items-center justify-center h-12 rounded-full hover:bg-gray-700 transition"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
-            <img
-              src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg"
-              alt="googleLogo"
-            />
-          </button>
+          
 
           {/* Divider */}
           <div className="flex items-center gap-4 w-full my-5" data-aos="fade-up" data-aos-delay="300">
