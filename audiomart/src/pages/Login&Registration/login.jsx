@@ -43,25 +43,32 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen w-full bg-black text-white relative overflow-hidden">
-      {/* Video Background */}
+      {/* Audio Equipment Background */}
       <div className="absolute inset-0 w-full h-full z-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover"
-        >
-          <source src="https://cdn.pixabay.com/vimeo/469678167/studio-49821.mp4?width=1280&hash=af4b7e6a38a5e72b6b10b41ea7b5b4b12a1c3c49" type="video/mp4" />
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-professional-recording-studio-with-audio-equipment-42334-large.mp4" type="video/mp4" />
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-dj-working-in-a-recording-studio-42333-large.mp4" type="video/mp4" />
-        </video>
+        {/* Primary Background Image */}
+        <div 
+          className="w-full h-full bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop')`
+          }}
+        ></div>
+        
+        {/* Secondary Overlay Image for depth */}
+        <div 
+          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-30"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=2070&auto=format&fit=crop')`
+          }}
+        ></div>
         
         {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black bg-opacity-60 z-10"></div>
+        <div className="absolute inset-0 bg-black bg-opacity-70 z-10"></div>
         
         {/* Yellow Tint Overlay */}
-        <div className="absolute inset-0 bg-yellow-400 bg-opacity-5 z-20"></div>
+        <div className="absolute inset-0 bg-yellow-400 bg-opacity-8 z-20"></div>
+        
+        {/* Subtle gradient overlay for better form contrast */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-yellow-900/20 z-25"></div>
       </div>
 
       {/* Login Form - Centered */}
