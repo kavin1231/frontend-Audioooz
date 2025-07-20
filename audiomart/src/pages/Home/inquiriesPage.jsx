@@ -78,7 +78,8 @@ export default function InquiriesPage() {
             Get in touch with us
           </h1>
           <p className="text-sm text-gray-500 text-center pb-10">
-            If you have any questions, send us a message and we’ll respond shortly.
+            If you have any questions, send us a message and we’ll respond
+            shortly.
           </p>
 
           {/* Name and Email - auto-filled */}
@@ -141,7 +142,6 @@ export default function InquiriesPage() {
                   <tr>
                     <th className="py-2 px-4 text-left">Message</th>
                     <th className="py-2 px-4 text-left">Admin Response</th>
-                    <th className="py-2 px-4 text-left">Date</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -150,9 +150,6 @@ export default function InquiriesPage() {
                       <td className="py-2 px-4">{inquiry.message}</td>
                       <td className="py-2 px-4">
                         {inquiry.response || "No response yet"}
-                      </td>
-                      <td className="py-2 px-4">
-                        {new Date(inquiry.createdAt).toLocaleDateString()}
                       </td>
                     </tr>
                   ))}
