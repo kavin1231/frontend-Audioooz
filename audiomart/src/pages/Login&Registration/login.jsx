@@ -64,18 +64,8 @@ export default function LoginPage() {
         <div className="absolute inset-0 bg-yellow-400 bg-opacity-5 z-20"></div>
       </div>
 
-      {/* Left Side Image - Now with enhanced overlay */}
-      <div className="w-1/2 hidden md:block relative z-30" data-aos="fade-right">
-        <img
-          className="h-full w-full object-cover opacity-80"
-          src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/leftSideImage.png"
-          alt="leftSideImage"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black opacity-50"></div>
-      </div>
-
-      {/* Right Side Login Form */}
-      <div className="w-full md:w-1/2 flex items-center justify-center px-4 relative z-30">
+      {/* Login Form - Centered */}
+      <div className="w-full flex items-center justify-center px-4 relative z-30">
         <form
           onSubmit={handleSubmit}
           className="md:w-96 w-full max-w-sm flex flex-col items-center bg-black bg-opacity-30 backdrop-blur-xl border border-yellow-400 border-opacity-30 p-8 rounded-2xl shadow-2xl shadow-yellow-400/20"
