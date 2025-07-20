@@ -150,12 +150,7 @@ export default function PurchasePage() {
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:p-10">
       <div className="max-w-7xl mx-auto">
-        <button
-          className="text-blue-600 flex items-center mb-6"
-          onClick={() => window.history.back()}
-        >
-          ← Back
-        </button>
+        
         <h1 className="text-3xl font-bold mb-8 text-center">Secure Checkout</h1>
 
         <div className="grid md:grid-cols-3 gap-8">

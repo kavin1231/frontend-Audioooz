@@ -181,14 +181,14 @@ export default function ProductOverview() {
                 </div>
 
                 <div className="mt-4 flex gap-4">
-                  <div className="mt-4 flex gap-4">
+                  <div className="mt-6">
                     <button
                       onClick={() => {
                         addToCart(product.key, 1);
                         toast.success("Added to Cart");
                         console.log(loadCart());
                       }}
-                      className="w-full py-3 rounded-lg text-lg font-semibold transition duration-200 text-white bg-gradient-to-r from-yellow-500 to-yellow-600 shadow-md hover:shadow-lg hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
+                      className="w-full bg-yellow-500 hover:bg-yellow-600 text-black py-3 px-6 rounded-xl text-lg font-semibold shadow-md transition-all duration-200 ease-in-out"
                     >
                       Add to Cart
                     </button>
