@@ -17,7 +17,7 @@ const Header = () => {
   return (
     <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-yellow-500 bg-black text-white relative transition-all z-50">
       {/* Logo */}
-      <Link to="/">
+      <Link to="/home">
         <img className="h-9" src="/logo-audiomart.png" alt="Company Logo" />
       </Link>
 
