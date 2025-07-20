@@ -124,7 +124,6 @@ export default function ProfilePage() {
     });
   };
 
-  // Updated renderProfileImage - VIEW ONLY (no upload functionality)
   const renderProfileImage = () => {
     const imageUrl = getProfileImageUrl();
     return (
@@ -163,9 +162,9 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-white text-gray-900">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500 mx-auto mb-4"></div>
           <div className="text-lg text-gray-600">Loading profile...</div>
         </div>
       </div>
@@ -174,13 +173,13 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-white text-gray-900">
         <div className="text-center">
           <div className="text-lg text-gray-600">Unable to load profile</div>
           {error && <div className="text-red-500 mt-2">{error}</div>}
           <button
             onClick={() => navigate("/login")}
-            className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+            className="mt-4 px-4 py-2 bg-black text-yellow-400 rounded-lg hover:bg-gray-800"
           >
             Go to Login
           </button>
@@ -190,17 +189,16 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white text-gray-900">
       <Header />
-      <main className="flex-grow bg-gray-50 py-8">
+      <main className="flex-grow py-8">
         <div className="max-w-4xl mx-auto px-4">
-          {/* Feedback */}
           {success && (
-            <div className="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+            <div className="mb-4 bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded relative">
               {success}
               <button
                 onClick={() => setSuccess("")}
-                className="absolute top-0 right-0 mt-2 mr-2 text-green-700 hover:text-green-900"
+                className="absolute top-0 right-0 mt-2 mr-2 text-yellow-800 hover:text-yellow-900"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -218,9 +216,8 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {/* Profile UI */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-gradient-to-r from-green-600 to-green-700 h-32" />
+            <div className="bg-yellow-400 h-32" />
             <div className="relative px-6 pb-6">
               <div className="absolute -top-16 left-6">
                 {renderProfileImage()}
@@ -235,14 +232,14 @@ export default function ProfilePage() {
                 <div className="flex flex-col sm:flex-row gap-2">
                   <Link
                     to="/profile/edit"
-                    className="inline-flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                    className="inline-flex items-center justify-center px-4 py-2 bg-black text-yellow-400 rounded-lg hover:bg-gray-800 transition-colors"
                   >
                     <Edit2 className="w-4 h-4 mr-2" />
                     Edit Profile
                   </Link>
                   <button
                     onClick={() => setShowPasswordModal(true)}
-                    className="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="inline-flex items-center justify-center px-4 py-2 bg-yellow-400 text-black rounded-lg hover:bg-yellow-500 transition-colors"
                   >
                     <KeyRound className="w-4 h-4 mr-2" />
                     Change Password
@@ -252,7 +249,6 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Details */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
             <InfoCard title="Personal Information">
               <InfoRow label="Email" value={user.email} icon={<Mail />} />
@@ -288,7 +284,6 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Password Change Modal */}
         {showPasswordModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
@@ -303,59 +298,35 @@ export default function ProfilePage() {
               </div>
 
               <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Current Password
-                  </label>
-                  <input
-                    type="password"
-                    value={passwordData.currentPassword}
-                    onChange={(e) =>
-                      setPasswordData((prev) => ({
-                        ...prev,
-                        currentPassword: e.target.value,
-                      }))
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500"
-                    placeholder="Enter current password"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    New Password
-                  </label>
-                  <input
-                    type="password"
-                    value={passwordData.newPassword}
-                    onChange={(e) =>
-                      setPasswordData((prev) => ({
-                        ...prev,
-                        newPassword: e.target.value,
-                      }))
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500"
-                    placeholder="Enter new password"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Confirm New Password
-                  </label>
-                  <input
-                    type="password"
-                    value={passwordData.confirmPassword}
-                    onChange={(e) =>
-                      setPasswordData((prev) => ({
-                        ...prev,
-                        confirmPassword: e.target.value,
-                      }))
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500"
-                    placeholder="Confirm new password"
-                  />
-                </div>
+                {["Current", "New", "Confirm New"].map((label, index) => (
+                  <div key={label}>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {label} Password
+                    </label>
+                    <input
+                      type="password"
+                      value={
+                        index === 0
+                          ? passwordData.currentPassword
+                          : index === 1
+                          ? passwordData.newPassword
+                          : passwordData.confirmPassword
+                      }
+                      onChange={(e) =>
+                        setPasswordData((prev) => ({
+                          ...prev,
+                          [index === 0
+                            ? "currentPassword"
+                            : index === 1
+                            ? "newPassword"
+                            : "confirmPassword"]: e.target.value,
+                        }))
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-yellow-500"
+                      placeholder={`Enter ${label.toLowerCase()} password`}
+                    />
+                  </div>
+                ))}
               </div>
 
               <div className="flex justify-end gap-2 mt-6">
@@ -367,7 +338,7 @@ export default function ProfilePage() {
                 </button>
                 <button
                   onClick={handlePasswordChange}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  className="px-4 py-2 bg-black text-yellow-400 rounded-lg hover:bg-gray-800"
                 >
                   Change Password
                 </button>
@@ -393,7 +364,7 @@ const InfoRow = ({ icon, label, value }) => (
 
 const InfoCard = ({ title, children }) => (
   <div className="bg-white rounded-lg shadow-md p-6">
-    <h2 className="text-xl font-semibold mb-4 text-gray-800">{title}</h2>
+    <h2 className="text-xl font-semibold mb-4 text-yellow-600">{title}</h2>
     {children}
   </div>
 );
