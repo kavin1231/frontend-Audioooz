@@ -18,7 +18,7 @@ const Header = () => {
     <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-yellow-500 bg-black text-white relative transition-all z-50">
       {/* Logo */}
       <Link to="/">
-        <img className="h-9 " src="/logo-audiomart.png" alt="Company Logo" />
+        <img className="h-9" src="/logo-audiomart.png" alt="Company Logo" />
       </Link>
 
       {/* Desktop Menu */}
@@ -38,38 +38,6 @@ const Header = () => {
             My Orders
           </Link>
         )}
-
-        {/* Search Bar */}
-        <div className="hidden lg:flex items-center text-sm gap-2 border border-yellow-500 px-3 rounded-full">
-          <input
-            className="py-1.5 w-full bg-transparent text-white placeholder-yellow-300 outline-none"
-            type="text"
-            placeholder="Search products"
-          />
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M10.836 10.615 15 14.695"
-              stroke="#FFD700"
-              strokeWidth="1.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              clipRule="evenodd"
-              d="M9.141 11.738c2.729-1.136 4.001-4.224 2.841-6.898S7.67.921 4.942 2.057C2.211 3.193.94 6.281 2.1 8.955s4.312 3.92 7.041 2.783"
-              stroke="#FFD700"
-              strokeWidth="1.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
 
         {/* Cart Icon */}
         <Link to="/cart" className="relative cursor-pointer">
