@@ -58,15 +58,9 @@ export default function LoginPage() {
             backgroundImage: `url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop')`,
           }}
         ></div>
-        <div
-          className="absolute inset-0 bg-black bg-opacity-70 z-10"
-        ></div>
-        <div
-          className="absolute inset-0 bg-black bg-opacity-8 z-20"
-        ></div>
-        <div
-          className="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-yellow-900/20 z-25"
-        ></div>
+        <div className="absolute inset-0 bg-black bg-opacity-70 z-10"></div>
+        <div className="absolute inset-0 bg-black bg-opacity-8 z-20"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-yellow-900/20 z-25"></div>
         <img
           src="/gbg.png"
           alt="Person"
@@ -86,17 +80,30 @@ export default function LoginPage() {
           }}
           data-aos="fade-up"
         >
-          <h2 className="text-4xl text-white font-medium drop-shadow-lg" data-aos="zoom-in">
+          <h2
+            className="text-4xl text-white font-medium drop-shadow-lg"
+            data-aos="zoom-in"
+          >
             Sign in
           </h2>
-          <p className="text-sm text-gray-300 mt-3 drop-shadow-md" data-aos="fade-up" data-aos-delay="100">
+          <p
+            className="text-sm text-gray-300 mt-3 drop-shadow-md"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
             Welcome back! Please sign in to continue
           </p>
 
           {/* Divider */}
-          <div className="flex items-center gap-4 w-full my-5" data-aos="fade-up" data-aos-delay="300">
+          <div
+            className="flex items-center gap-4 w-full my-5"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
             <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent"></div>
-            <p className="text-nowrap text-sm text-gray-300">or sign in with email</p>
+            <p className="text-nowrap text-sm text-gray-300">
+              or sign in with email
+            </p>
             <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent"></div>
           </div>
 
@@ -106,8 +113,18 @@ export default function LoginPage() {
             data-aos="fade-up"
             data-aos-delay="400"
           >
-            <svg width="16" height="11" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" clipRule="evenodd" d="M0 .55.571 0H15.43l.57.55v9.9l-.571.55H.57L0 10.45zm1.143 1.138V9.9h13.714V1.69l-6.503 4.8h-.697zM13.749 1.1H2.25L8 5.356z" fill="#D1D5DB" />
+            <svg
+              width="16"
+              height="11"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M0 .55.571 0H15.43l.57.55v9.9l-.571.55H.57L0 10.45zm1.143 1.138V9.9h13.714V1.69l-6.503 4.8h-.697zM13.749 1.1H2.25L8 5.356z"
+                fill="#D1D5DB"
+              />
             </svg>
             <input
               type="email"
@@ -125,8 +142,16 @@ export default function LoginPage() {
             data-aos="fade-up"
             data-aos-delay="500"
           >
-            <svg width="13" height="17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13 8.5c0-.938-.729-1.7-1.625-1.7h-.812V4.25C10.563 1.907 8.74 0 6.5 0S2.438 1.907 2.438 4.25V6.8h-.813C.729 6.8 0 7.562 0 8.5v6.8c0 .938.729 1.7 1.625 1.7h9.75c.896 0 1.625-.762 1.625-1.7zM4.063 4.25c0-1.406 1.093-2.55 2.437-2.55s2.438 1.144 2.438 2.55V6.8H4.061z" fill="#D1D5DB" />
+            <svg
+              width="13"
+              height="17"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13 8.5c0-.938-.729-1.7-1.625-1.7h-.812V4.25C10.563 1.907 8.74 0 6.5 0S2.438 1.907 2.438 4.25V6.8h-.813C.729 6.8 0 7.562 0 8.5v6.8c0 .938.729 1.7 1.625 1.7h9.75c.896 0 1.625-.762 1.625-1.7zM4.063 4.25c0-1.406 1.093-2.55 2.437-2.55s2.438 1.144 2.438 2.55V6.8H4.061z"
+                fill="#D1D5DB"
+              />
             </svg>
             <input
               type="password"
@@ -139,7 +164,11 @@ export default function LoginPage() {
           </div>
 
           {/* Remember Me and Forgot Password */}
-          <div className="w-full flex items-center justify-between mt-8 text-gray-300" data-aos="fade-up" data-aos-delay="600">
+          <div
+            className="w-full flex items-center justify-between mt-8 text-gray-300"
+            data-aos="fade-up"
+            data-aos-delay="600"
+          >
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
                 <input
@@ -157,10 +186,15 @@ export default function LoginPage() {
                 </label>
               </div>
               {!rememberTouched && (
-                <p className="text-xs text-red-400 mt-1 ml-1">Please confirm your preference</p>
+                <p className="text-xs text-red-400 mt-1 ml-1">
+                  Please confirm your preference
+                </p>
               )}
             </div>
-            <a className="text-sm underline hover:text-yellow-400 transition-colors duration-300" href="#">
+            <a
+              className="text-sm underline hover:text-yellow-400 transition-colors duration-300"
+              href="#"
+            >
               Forgot password?
             </a>
           </div>
@@ -176,9 +210,16 @@ export default function LoginPage() {
           </button>
 
           {/* Signup Link */}
-          <p className="text-gray-300 text-sm mt-4" data-aos="fade-up" data-aos-delay="800">
+          <p
+            className="text-gray-300 text-sm mt-4"
+            data-aos="fade-up"
+            data-aos-delay="800"
+          >
             Don't have an account?{" "}
-            <a className="text-yellow-400 hover:text-yellow-300 hover:underline transition-colors duration-300" href="/register">
+            <a
+              className="text-yellow-400 hover:text-yellow-300 hover:underline transition-colors duration-300"
+              href="/register"
+            >
               Sign up
             </a>
           </p>
