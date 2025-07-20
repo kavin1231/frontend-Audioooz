@@ -64,7 +64,7 @@ export default function LoginPage() {
         <img
           src="/gbg.png"
           alt="Person"
-          className="absolute z-25 bottom-0 left-1/2 transform -translate-x-1/2 max-h-[130vh] opacity-90 pointer-events-none"
+          className="absolute z-25 bottom-0 left-1/2 transform -translate-x-1/2 h-[130vh] max-h-[130vh] object-contain opacity-90 pointer-events-none"
           data-aos="fade-up"
         />
       </div>
