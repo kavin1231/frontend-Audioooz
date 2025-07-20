@@ -7,7 +7,6 @@ import Footer from "../../footer";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-
 const BackendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default function ProductPage() {
@@ -35,13 +34,13 @@ export default function ProductPage() {
     <>
       <Header />
 
-      <div
-        className="min-h-screen w-full bg-cover bg-center flex flex-wrap justify-center items-start gap-6 pt-24 px-4"
+      <main
+        className="min-h-[calc(100vh-160px)] w-full bg-cover bg-center flex flex-wrap justify-center items-start gap-6 pt-32 pb-16 px-4"
         style={{ backgroundImage: "url('/listingbg.jpg')" }}
       >
         {state === "loading" && (
           <div
-            className="flex justify-center items-center min-h-screen w-full"
+            className="flex justify-center items-center min-h-[60vh] w-full"
             data-aos="fade-in"
           >
             <div className="w-12 h-12 border-4 border-t-green-500 border-gray-300 rounded-full animate-spin"></div>
@@ -53,7 +52,7 @@ export default function ProductPage() {
             <div
               key={item.key}
               data-aos="zoom-in-up"
-              data-aos-delay={(index % 6) * 100} // staggered animation
+              data-aos-delay={(index % 6) * 100}
             >
               <ProductCard item={item} />
             </div>
@@ -67,7 +66,7 @@ export default function ProductPage() {
             Failed to load products.
           </div>
         )}
-      </div>
+      </main>
 
       <Footer />
     </>
