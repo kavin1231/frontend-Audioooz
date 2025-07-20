@@ -188,8 +188,7 @@ export default function ProductOverview() {
                         toast.success("Added to Cart");
                         console.log(loadCart());
                       }}
-                      style={{ backgroundColor: "#D4AF37" }} // gold hex
-                      className="w-full text-black py-3 rounded-lg text-lg font-semibold hover:brightness-90 transition duration-200"
+                      className="w-full py-3 rounded-lg text-lg font-semibold transition duration-200 text-white bg-gradient-to-r from-yellow-500 to-yellow-600 shadow-md hover:shadow-lg hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
                     >
                       Add to Cart
                     </button>
