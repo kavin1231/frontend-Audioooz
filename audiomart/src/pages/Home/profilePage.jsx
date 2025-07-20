@@ -1,17 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {
-  User,
-  Mail,
-  Phone,
-  MapPin,
-  Edit2,
-  Camera,
-  KeyRound,
-  X,
-} from "lucide-react";
+import { User, Mail, Phone, MapPin, Edit2, KeyRound, X } from "lucide-react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import mediaUpload from "../../utils/mediaUpload";
 import Header from "../../header";
 import Footer from "../../footer";
 
@@ -20,8 +10,6 @@ const BackendUrl = import.meta.env.VITE_BACKEND_URL;
 export default function ProfilePage() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [preview, setPreview] = useState(null);
-  const [uploading, setUploading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -77,7 +65,6 @@ export default function ProfilePage() {
   }, [success, error]);
 
   const getProfileImageUrl = () => {
-    if (preview) return preview;
     if (user?.profilePicture && user.profilePicture.trim() !== "") {
       return `${user.profilePicture}?v=${imgVersion}`;
     }
@@ -85,61 +72,6 @@ export default function ProfilePage() {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(
       initials
     )}&background=10b981&color=fff&size=128&font-size=0.33`;
-  };
-
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
-    if (!validTypes.includes(file.type)) {
-      setError("Please select a valid image file (JPEG, PNG, GIF)");
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      setError("Image size should be less than 5MB");
-      return;
-    }
-
-    const filePreview = URL.createObjectURL(file);
-    setPreview(filePreview);
-    setUploading(true);
-    setImageError(false);
-    setError("");
-
-    try {
-      const imageUrl = await mediaUpload(file);
-      const token = localStorage.getItem("token");
-      await axios.post(
-        `${BackendUrl}/api/users/upload-profile-picture`,
-        { imageUrl },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      setUser((prev) => ({
-        ...prev,
-        profilePicture: imageUrl,
-      }));
-      setImgVersion((prev) => prev + 1);
-      setPreview(null);
-      URL.revokeObjectURL(filePreview);
-      setSuccess("Profile picture updated successfully!");
-      setImageError(false);
-    } catch (err) {
-      setError(
-        typeof err === "string"
-          ? err
-          : err.response?.data?.error || "Image upload failed"
-      );
-      setPreview(null);
-      URL.revokeObjectURL(filePreview);
-    } finally {
-      setUploading(false);
-    }
   };
 
   const handlePasswordChange = async () => {
@@ -192,10 +124,11 @@ export default function ProfilePage() {
     });
   };
 
+  // Updated renderProfileImage - VIEW ONLY (no upload functionality)
   const renderProfileImage = () => {
     const imageUrl = getProfileImageUrl();
     return (
-      <div className="relative group">
+      <div className="relative">
         <div className="w-32 h-32 rounded-full border-4 border-white shadow-lg bg-gray-200 flex items-center justify-center overflow-hidden">
           {imageError ? (
             <div className="w-full h-full bg-green-600 flex items-center justify-center text-white text-2xl font-bold">
@@ -219,17 +152,7 @@ export default function ProfilePage() {
             />
           )}
         </div>
-        <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 rounded-full cursor-pointer transition-opacity">
-          <Camera className="text-white opacity-0 group-hover:opacity-100 w-6 h-6" />
-          <input
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleImageChange}
-            disabled={uploading}
-          />
-        </label>
-        {(uploading || imageLoading) && (
+        {imageLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
             <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
           </div>
@@ -364,6 +287,94 @@ export default function ProfilePage() {
             </InfoCard>
           </div>
         </div>
+
+        {/* Password Change Modal */}
+        {showPasswordModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">Change Password</h2>
+                <button
+                  onClick={closePasswordModal}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Current Password
+                  </label>
+                  <input
+                    type="password"
+                    value={passwordData.currentPassword}
+                    onChange={(e) =>
+                      setPasswordData((prev) => ({
+                        ...prev,
+                        currentPassword: e.target.value,
+                      }))
+                    }
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500"
+                    placeholder="Enter current password"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    value={passwordData.newPassword}
+                    onChange={(e) =>
+                      setPasswordData((prev) => ({
+                        ...prev,
+                        newPassword: e.target.value,
+                      }))
+                    }
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500"
+                    placeholder="Enter new password"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Confirm New Password
+                  </label>
+                  <input
+                    type="password"
+                    value={passwordData.confirmPassword}
+                    onChange={(e) =>
+                      setPasswordData((prev) => ({
+                        ...prev,
+                        confirmPassword: e.target.value,
+                      }))
+                    }
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500"
+                    placeholder="Confirm new password"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-2 mt-6">
+                <button
+                  onClick={closePasswordModal}
+                  className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handlePasswordChange}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                >
+                  Change Password
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
       <Footer />
     </div>
