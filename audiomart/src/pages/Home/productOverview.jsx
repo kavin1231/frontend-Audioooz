@@ -75,7 +75,9 @@ export default function ProductOverview() {
     return Array.from({ length: 5 }, (_, i) => (
       <span
         key={i}
-        className={`${size} ${i + 1 <= rating ? "text-yellow-400" : "text-gray-300"}`}
+        className={`${size} ${
+          i + 1 <= rating ? "text-yellow-400" : "text-gray-300"
+        }`}
       >
         ★
       </span>
@@ -132,7 +134,9 @@ export default function ProductOverview() {
                       alt={`thumb-${idx}`}
                       onClick={() => setSelectedImage(img)}
                       className={`w-20 h-20 rounded border cursor-pointer object-cover ${
-                        selectedImage === img ? "border-green-600" : "border-gray-300"
+                        selectedImage === img
+                          ? "border-green-600"
+                          : "border-gray-300"
                       }`}
                     />
                   ))}
@@ -148,17 +152,23 @@ export default function ProductOverview() {
 
               {/* Right: Details */}
               <div className="md:w-1/2 w-full flex flex-col gap-4">
-                <h1 className="text-3xl font-bold text-green-800">{product.name}</h1>
+                <h1 className="text-3xl font-bold text-green-800">
+                  {product.name}
+                </h1>
 
                 <div className="flex items-center gap-2">
                   {renderStars(averageRating, "text-2xl")}
-                  <span className="text-lg font-medium">{averageRating.toFixed(1)}</span>
+                  <span className="text-lg font-medium">
+                    {averageRating.toFixed(1)}
+                  </span>
                   <span className="text-sm text-gray-600">
                     ({totalReviews} {totalReviews === 1 ? "review" : "reviews"})
                   </span>
                 </div>
 
-                <h2 className="text-xl text-gray-700">Category: {product.category}</h2>
+                <h2 className="text-xl text-gray-700">
+                  Category: {product.category}
+                </h2>
                 <p className="text-gray-600">{product.description}</p>
 
                 <p className="text-2xl font-semibold text-green-600">
@@ -166,7 +176,8 @@ export default function ProductOverview() {
                 </p>
 
                 <div className="text-sm text-gray-500">
-                  <span className="font-medium">Dimensions:</span> {product.dimensions}
+                  <span className="font-medium">Dimensions:</span>{" "}
+                  {product.dimensions}
                 </div>
 
                 <div className="mt-4 flex gap-4">
@@ -179,12 +190,6 @@ export default function ProductOverview() {
                     className="w-full bg-green-800 hover:bg-green-900 text-white py-3 rounded-lg text-lg transition duration-200"
                   >
                     Add to Cart
-                  </button>
-                  <button
-                    onClick={() => navigate(`/booking/${key}`)}
-                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg text-lg transition duration-200"
-                  >
-                    Book Now
                   </button>
                 </div>
               </div>
@@ -235,15 +240,24 @@ export default function ProductOverview() {
               ) : (
                 <div className="space-y-4">
                   {reviews.map((review, index) => (
-                    <div key={index} className="border-b border-gray-100 pb-4 last:border-b-0">
+                    <div
+                      key={index}
+                      className="border-b border-gray-100 pb-4 last:border-b-0"
+                    >
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2">
                           {renderStars(review.rating, "text-lg")}
-                          <span className="font-medium text-gray-700">{review.rating}/5</span>
+                          <span className="font-medium text-gray-700">
+                            {review.rating}/5
+                          </span>
                         </div>
-                        <span className="text-sm text-gray-500">{review.date}</span>
+                        <span className="text-sm text-gray-500">
+                          {review.date}
+                        </span>
                       </div>
-                      <p className="text-gray-700 leading-relaxed">{review.comment}</p>
+                      <p className="text-gray-700 leading-relaxed">
+                        {review.comment}
+                      </p>
                     </div>
                   ))}
                 </div>
