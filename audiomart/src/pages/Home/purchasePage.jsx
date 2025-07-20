@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import Header from "../../header";
+import Footer from "../../footer";
 
 
 // ✅ Get backend URL from environment
@@ -149,6 +151,7 @@ export default function PurchasePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:p-10">
+      <Header/>
       <div className="max-w-7xl mx-auto">
         
         <h1 className="text-3xl font-bold mb-8 text-center">Secure Checkout</h1>
@@ -309,6 +312,7 @@ export default function PurchasePage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
