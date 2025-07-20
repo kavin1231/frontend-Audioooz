@@ -42,37 +42,44 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex h-[700px] w-full bg-black text-white">
+    <div className="flex min-h-screen w-full bg-black text-white">
       {/* Left Side Image */}
-      <div className="w-full hidden md:inline-block" data-aos="fade-right">
+      <div className="w-1/2 hidden md:block" data-aos="fade-right">
         <img
-          className="h-full object-cover"
+          className="h-full w-full object-cover"
           src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/leftSideImage.png"
           alt="leftSideImage"
         />
       </div>
 
       {/* Right Side Login Form */}
-      <div className="w-full flex flex-col items-center justify-center">
+      <div className="w-full md:w-1/2 flex items-center justify-center px-4">
         <form
           onSubmit={handleSubmit}
-          className="md:w-96 w-80 flex flex-col items-center justify-center"
+          className="md:w-96 w-full max-w-sm flex flex-col items-center"
           data-aos="fade-up"
         >
           <h2 className="text-4xl text-white font-medium" data-aos="zoom-in">
             Sign in
           </h2>
-          <p className="text-sm text-gray-400 mt-3" data-aos="fade-up" data-aos-delay="100">
+          <p
+            className="text-sm text-gray-400 mt-3"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
             Welcome back! Please sign in to continue
           </p>
 
-          {/* Google Sign-in Button */}
-          
-
           {/* Divider */}
-          <div className="flex items-center gap-4 w-full my-5" data-aos="fade-up" data-aos-delay="300">
+          <div
+            className="flex items-center gap-4 w-full my-5"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
             <div className="w-full h-px bg-gray-700"></div>
-            <p className="w-full text-nowrap text-sm text-gray-400">or sign in with email</p>
+            <p className="text-nowrap text-sm text-gray-400">
+              or sign in with email
+            </p>
             <div className="w-full h-px bg-gray-700"></div>
           </div>
 
@@ -168,7 +175,11 @@ export default function LoginPage() {
           </button>
 
           {/* Signup Link */}
-          <p className="text-gray-400 text-sm mt-4" data-aos="fade-up" data-aos-delay="800">
+          <p
+            className="text-gray-400 text-sm mt-4"
+            data-aos="fade-up"
+            data-aos-delay="800"
+          >
             Don’t have an account?{" "}
             <a className="text-yellow-400 hover:underline" href="/register">
               Sign up
